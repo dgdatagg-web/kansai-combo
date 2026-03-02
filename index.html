@@ -9,43 +9,45 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #fff8f2;
-      color: #2a1800;
+      background: #111111;
+      color: #f5ead8;
       min-height: 100vh;
     }
 
     /* HERO */
     .hero {
-      background: linear-gradient(160deg, #e85d04 0%, #f48c06 60%, #faa307 100%);
+      background: linear-gradient(160deg, #1a0000 0%, #2d0000 50%, #1a0000 100%);
       text-align: center;
       padding: 44px 20px 32px;
+      border-bottom: 3px solid #cc0000;
     }
 
     .hero-badge {
       display: inline-block;
-      background: rgba(255,255,255,0.25);
+      background: #cc0000;
       color: #fff;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
-      padding: 4px 14px;
+      padding: 4px 16px;
       border-radius: 20px;
       margin-bottom: 14px;
     }
 
     .hero h1 {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 800;
-      color: #fff;
+      color: #f5ead8;
       line-height: 1.2;
-      margin-bottom: 8px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      margin-bottom: 6px;
     }
+
+    .hero h1 span { color: #f0c040; }
 
     .hero-sub {
       font-size: 14px;
-      color: rgba(255,255,255,0.85);
+      color: #a09080;
       margin-bottom: 18px;
     }
 
@@ -53,24 +55,23 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255,255,255,0.2);
-      border: 1.5px solid rgba(255,255,255,0.5);
+      background: rgba(204,0,0,0.15);
+      border: 1.5px solid #cc0000;
       border-radius: 24px;
       padding: 7px 20px;
       font-size: 13px;
-      color: #fff;
+      color: #f0c040;
       font-weight: 700;
     }
 
     /* SAVE BANNER */
     .save-banner {
-      background: #d62828;
+      background: #cc0000;
       text-align: center;
       padding: 10px;
       font-size: 13px;
       font-weight: 700;
       color: #fff;
-      letter-spacing: 0.3px;
     }
 
     /* SECTION */
@@ -85,26 +86,26 @@
       font-weight: 800;
       letter-spacing: 2.5px;
       text-transform: uppercase;
-      color: #e85d04;
+      color: #cc0000;
       margin-bottom: 12px;
-      padding-left: 4px;
+      padding-left: 2px;
     }
 
     /* CARD */
     .card {
-      background: #fff;
-      border-radius: 18px;
+      background: #1c1c1c;
+      border-radius: 16px;
       overflow: hidden;
       margin-bottom: 14px;
-      box-shadow: 0 2px 12px rgba(232,93,4,0.10);
-      border: 1.5px solid #ffe0c2;
+      border: 1px solid #2e2e2e;
     }
 
     .card-img {
       width: 100%;
-      height: 180px;
+      height: 190px;
       object-fit: cover;
       display: block;
+      background: #2a2a2a;
     }
 
     .card-body { padding: 16px 16px 14px; }
@@ -119,7 +120,7 @@
     .card-name {
       font-size: 16px;
       font-weight: 800;
-      color: #1a0d00;
+      color: #f5ead8;
       line-height: 1.3;
     }
 
@@ -133,12 +134,12 @@
       flex-shrink: 0;
     }
 
-    .badge-best { background: #e85d04; color: #fff; }
-    .badge-premium { background: #fff3e0; color: #e85d04; border: 1.5px solid #e85d04; }
+    .badge-best { background: #cc0000; color: #fff; }
+    .badge-premium { background: transparent; color: #f0c040; border: 1.5px solid #f0c040; }
 
     .card-desc {
       font-size: 13px;
-      color: #7a5030;
+      color: #9a8878;
       line-height: 1.6;
       margin-bottom: 12px;
     }
@@ -146,19 +147,17 @@
     .card-items {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
       margin-bottom: 14px;
       padding: 10px 12px;
-      background: #fff8f2;
+      background: #141414;
       border-radius: 10px;
+      border: 1px solid #2a2a2a;
     }
 
     .card-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       font-size: 13px;
-      color: #5a3820;
+      color: #c8b898;
     }
 
     .card-footer {
@@ -169,7 +168,7 @@
 
     .price-original {
       font-size: 11px;
-      color: #c0a090;
+      color: #4a4a4a;
       text-decoration: line-through;
       margin-bottom: 1px;
     }
@@ -177,18 +176,18 @@
     .price-combo {
       font-size: 24px;
       font-weight: 800;
-      color: #e85d04;
+      color: #f0c040;
     }
 
     .price-save {
       font-size: 11px;
-      color: #d62828;
+      color: #cc0000;
       font-weight: 700;
       margin-top: 1px;
     }
 
     .order-btn {
-      background: linear-gradient(135deg, #e85d04, #f48c06);
+      background: #cc0000;
       color: #fff;
       border: none;
       border-radius: 26px;
@@ -198,29 +197,31 @@
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
-      box-shadow: 0 3px 10px rgba(232,93,4,0.35);
-      transition: transform 0.1s;
+      transition: background 0.15s, transform 0.1s;
     }
 
-    .order-btn:active { transform: scale(0.96); }
+    .order-btn:active {
+      background: #a80000;
+      transform: scale(0.96);
+    }
 
     /* DIVIDER */
     .divider {
       max-width: 480px;
       margin: 24px auto 0;
       border: none;
-      border-top: 2px dashed #ffe0c2;
+      border-top: 1px solid #2a2a2a;
     }
 
     /* FOOTER */
     .footer {
       text-align: center;
-      padding: 28px 20px 40px;
-      color: #c0a090;
+      padding: 28px 20px 44px;
+      color: #3a3a3a;
       font-size: 12px;
     }
 
-    .footer strong { color: #e85d04; }
+    .footer strong { color: #cc0000; }
   </style>
 </head>
 <body>
@@ -228,12 +229,11 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-badge">🍱 Kansai Osaka</div>
-  <h1>Combo Trưa<br/>Chuẩn Vị Nhật 🇯🇵</h1>
+  <h1>Combo Trưa<br/><span>Chuẩn Vị Nhật</span></h1>
   <p class="hero-sub">Món chính + Súp Miso + Trà — tiết kiệm đến 27k</p>
   <div class="hero-time">⏰ Phục vụ 11:00 – 14:00 mỗi ngày</div>
 </div>
 
-<!-- SAVE BANNER -->
 <div class="save-banner">🔥 Gọi combo — tiết kiệm ngay 27.000₫ so với gọi lẻ</div>
 
 <!-- DÒNG KARE -->
@@ -243,9 +243,9 @@
   <!-- Kare Chicken -->
   <div class="card">
     <img class="card-img"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/forty/Katsu_curry.jpg/800px-Katsu_curry.jpg"
-      onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Katsu_Curry_%28Japanese_Curry%29.jpg/800px-Katsu_Curry_%28Japanese_Curry%29.jpg'"
-      alt="Kare Chicken Katsu"/>
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Katsu_Curry_%28Japanese_Curry%29.jpg/800px-Katsu_Curry_%28Japanese_Curry%29.jpg"
+      alt="Kare Chicken Katsu"
+      onerror="this.style.background='#2a2a2a';this.style.height='60px'"/>
     <div class="card-body">
       <div class="card-header">
         <div class="card-name">Combo Kare Chicken</div>
@@ -271,7 +271,8 @@
   <div class="card">
     <img class="card-img"
       src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Katsu_curry_by_Marshall_Astor.jpg/800px-Katsu_curry_by_Marshall_Astor.jpg"
-      alt="Kare Tonkatsu"/>
+      alt="Kare Tonkatsu"
+      onerror="this.style.background='#2a2a2a';this.style.height='60px'"/>
     <div class="card-body">
       <div class="card-header">
         <div class="card-name">Combo Kare Tonkatsu</div>
@@ -298,7 +299,8 @@
   <div class="card">
     <img class="card-img"
       src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Beef_curry_by_Alpha.jpg/800px-Beef_curry_by_Alpha.jpg"
-      alt="Kare Beef Yakiniku"/>
+      alt="Kare Beef Yakiniku"
+      onerror="this.style.background='#2a2a2a';this.style.height='60px'"/>
     <div class="card-body">
       <div class="card-header">
         <div class="card-name">Combo Kare Beef</div>
@@ -332,7 +334,8 @@
   <div class="card">
     <img class="card-img"
       src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Katsudon_%28Japanese_dish%29.jpg/800px-Katsudon_%28Japanese_dish%29.jpg"
-      alt="Chicken Katsudon"/>
+      alt="Chicken Katsudon"
+      onerror="this.style.background='#2a2a2a';this.style.height='60px'"/>
     <div class="card-body">
       <div class="card-header">
         <div class="card-name">Combo Chicken Katsudon</div>
@@ -357,9 +360,9 @@
   <!-- Pork Katsudon -->
   <div class="card">
     <img class="card-img"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/thirty/Katsudon.jpg/800px-Katsudon.jpg"
-      onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Katsudon_%28Japanese_dish%29.jpg/800px-Katsudon_%28Japanese_dish%29.jpg'"
-      alt="Pork Katsudon"/>
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/twenty/Katsudon_%28pork_cutlet_rice_bowl%29.jpg/800px-Katsudon_%28pork_cutlet_rice_bowl%29.jpg"
+      alt="Pork Katsudon"
+      onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Katsudon_%28Japanese_dish%29.jpg/800px-Katsudon_%28Japanese_dish%29.jpg'"/>
     <div class="card-body">
       <div class="card-header">
         <div class="card-name">Combo Pork Katsudon</div>
