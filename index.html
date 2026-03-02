@@ -5,381 +5,712 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Combo Trưa – Kansai Osaka</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --black: #0a0a0a;
+      --dark: #141414;
+      --card: #1a1a1a;
+      --border: #262626;
+      --cream: #f5ead8;
+      --cream2: #e8d5b8;
+      --muted: #6a6a6a;
+      --red: #c0392b;
+      --red-soft: rgba(192,57,43,0.12);
+      --gold: #d4a843;
+      --gold-soft: rgba(212,168,67,0.12);
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #111111;
-      color: #f5ead8;
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: var(--black);
+      color: var(--cream);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
-      background: linear-gradient(160deg, #1a0000 0%, #2d0000 50%, #1a0000 100%);
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 30%, rgba(212,168,67,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(192,57,43,0.06) 0%, transparent 60%);
+      z-index: 0;
+    }
+
+    /* Steam animation */
+    .steam-container {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 300px;
+      z-index: 1;
+    }
+
+    .bowl-emoji {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 100px;
+      filter: drop-shadow(0 20px 40px rgba(212,168,67,0.3));
+      animation: bowlFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes bowlFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    .steam {
+      position: absolute;
+      bottom: 90px;
+      width: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      filter: blur(4px);
+      animation: steamRise 2.5s ease-in infinite;
+      transform-origin: bottom;
+    }
+
+    .steam:nth-child(1) { left: 38%; height: 60px; animation-delay: 0s; animation-duration: 2.2s; }
+    .steam:nth-child(2) { left: 48%; height: 80px; animation-delay: 0.4s; animation-duration: 2.8s; }
+    .steam:nth-child(3) { left: 58%; height: 50px; animation-delay: 0.8s; animation-duration: 2.0s; }
+    .steam:nth-child(4) { left: 43%; height: 70px; animation-delay: 1.2s; animation-duration: 3.0s; }
+    .steam:nth-child(5) { left: 53%; height: 55px; animation-delay: 0.6s; animation-duration: 2.4s; }
+
+    @keyframes steamRise {
+      0% { opacity: 0; transform: translateY(0) scaleX(1); }
+      20% { opacity: 0.6; }
+      80% { opacity: 0.1; transform: translateY(-120px) scaleX(2.5); }
+      100% { opacity: 0; transform: translateY(-150px) scaleX(3); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 24px 48px;
       text-align: center;
-      padding: 44px 20px 32px;
-      border-bottom: 3px solid #cc0000;
     }
 
-    .hero-badge {
+    .hero-tag {
       display: inline-block;
-      background: #cc0000;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
       text-transform: uppercase;
-      padding: 4px 16px;
+      color: var(--gold);
+      border: 1px solid rgba(212,168,67,0.3);
+      padding: 5px 16px;
       border-radius: 20px;
-      margin-bottom: 14px;
-    }
-
-    .hero h1 {
-      font-size: 30px;
-      font-weight: 800;
-      color: #f5ead8;
-      line-height: 1.2;
-      margin-bottom: 6px;
-    }
-
-    .hero h1 span { color: #f0c040; }
-
-    .hero-sub {
-      font-size: 14px;
-      color: #a09080;
       margin-bottom: 18px;
     }
 
-    .hero-time {
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .hero-office-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(204,0,0,0.15);
-      border: 1.5px solid #cc0000;
-      border-radius: 24px;
-      padding: 7px 20px;
-      font-size: 13px;
-      color: #f0c040;
-      font-weight: 700;
+      background: var(--red-soft);
+      border: 1px solid rgba(192,57,43,0.3);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 12px;
+      color: #e57368;
+      font-weight: 500;
+      margin-bottom: 24px;
     }
 
-    /* SAVE BANNER */
-    .save-banner {
-      background: #cc0000;
+    .hero-time {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .hero-time span { color: var(--cream2); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      animation: bounce 2s infinite;
+      opacity: 0.4;
+    }
+
+    .scroll-hint span { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+    .scroll-hint::after { content: '↓'; font-size: 16px; color: var(--muted); }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── PRICE COMPARE BANNER ── */
+    .compare-banner {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .compare-item {
       text-align: center;
-      padding: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
     }
 
-    /* SECTION */
+    .compare-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+    .compare-price { font-size: 18px; font-weight: 800; }
+    .compare-price.theirs { color: var(--muted); text-decoration: line-through; }
+    .compare-price.ours { color: var(--gold); }
+
+    .compare-vs {
+      font-size: 11px;
+      color: var(--muted);
+      background: var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .compare-save-tag {
+      background: var(--red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── SECTION ── */
     .section {
       max-width: 480px;
       margin: 0 auto;
-      padding: 24px 14px 0;
+      padding: 32px 16px 0;
     }
 
-    .section-title {
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .section-label-text {
       font-size: 11px;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 2.5px;
       text-transform: uppercase;
-      color: #cc0000;
-      margin-bottom: 12px;
-      padding-left: 2px;
+      color: var(--muted);
     }
 
-    /* CARD */
-    .card {
-      background: #1c1c1c;
-      border-radius: 16px;
+    .section-label-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── FOOD CARD ── */
+    .food-card {
+      background: var(--card);
+      border-radius: 20px;
       overflow: hidden;
-      margin-bottom: 14px;
-      border: 1px solid #2e2e2e;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
     }
 
-    .card-img {
+    .food-card:active { border-color: rgba(212,168,67,0.4); }
+
+    .food-img-wrap {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .food-img-wrap img {
       width: 100%;
-      height: 190px;
+      height: 100%;
       object-fit: cover;
       display: block;
-      background: #2a2a2a;
+      transition: transform 6s ease;
     }
 
-    .card-body { padding: 16px 16px 14px; }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 6px;
+    .food-img-wrap:hover img,
+    .food-img-wrap.active img {
+      transform: scale(1.08);
     }
 
-    .card-name {
-      font-size: 16px;
-      font-weight: 800;
-      color: #f5ead8;
-      line-height: 1.3;
+    .food-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.1) 50%, transparent 100%);
     }
 
-    .card-badge {
+    .food-img-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
       font-size: 10px;
       font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 12px;
-      white-space: nowrap;
-      margin-left: 8px;
-      flex-shrink: 0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
     }
 
-    .badge-best { background: #cc0000; color: #fff; }
-    .badge-premium { background: transparent; color: #f0c040; border: 1.5px solid #f0c040; }
+    .badge-best { background: rgba(192,57,43,0.9); color: #fff; }
+    .badge-premium { background: rgba(212,168,67,0.15); color: var(--gold); border: 1px solid rgba(212,168,67,0.4); }
+    .badge-value { background: rgba(255,255,255,0.1); color: var(--cream); border: 1px solid rgba(255,255,255,0.15); }
 
-    .card-desc {
+    .food-img-name {
+      position: absolute;
+      bottom: 12px;
+      left: 16px;
+      right: 16px;
+    }
+
+    .food-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+
+    .food-body { padding: 16px; }
+
+    .food-desc {
       font-size: 13px;
-      color: #9a8878;
-      line-height: 1.6;
-      margin-bottom: 12px;
-    }
-
-    .card-items {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      color: var(--muted);
+      line-height: 1.65;
       margin-bottom: 14px;
-      padding: 10px 12px;
-      background: #141414;
-      border-radius: 10px;
-      border: 1px solid #2a2a2a;
+      font-weight: 400;
     }
 
-    .card-item {
-      font-size: 13px;
-      color: #c8b898;
+    /* Includes */
+    .includes {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
     }
 
-    .card-footer {
+    .include-tag {
+      font-size: 11px;
+      color: var(--cream2);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* Add-ons */
+    .addon-section {
+      background: rgba(212,168,67,0.04);
+      border: 1px solid rgba(212,168,67,0.12);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .addon-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .addon-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
-    .price-original {
+    .addon-row:last-child { border-bottom: none; }
+
+    .addon-name { font-size: 12px; color: var(--cream2); }
+    .addon-price { font-size: 12px; color: var(--gold); font-weight: 600; }
+    .addon-deal { font-size: 11px; color: #e57368; font-weight: 600; }
+
+    /* Price row */
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .price-block {}
+
+    .price-compare {
       font-size: 11px;
-      color: #4a4a4a;
-      text-decoration: line-through;
-      margin-bottom: 1px;
+      color: var(--muted);
+      margin-bottom: 2px;
     }
 
-    .price-combo {
-      font-size: 24px;
-      font-weight: 800;
-      color: #f0c040;
+    .price-compare s { color: #444; }
+
+    .price-main {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: -0.5px;
+      line-height: 1;
     }
 
     .price-save {
       font-size: 11px;
-      color: #cc0000;
-      font-weight: 700;
-      margin-top: 1px;
+      margin-top: 4px;
+      font-weight: 600;
     }
 
+    .save-hot { color: var(--red); }
+    .save-good { color: #e57368; }
+    .save-ok { color: #a0a0a0; }
+
     .order-btn {
-      background: #cc0000;
-      color: #fff;
+      background: var(--white);
+      color: var(--black);
       border: none;
       border-radius: 26px;
-      padding: 12px 22px;
+      padding: 13px 22px;
       font-size: 13px;
       font-weight: 800;
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
       transition: background 0.15s, transform 0.1s;
+      letter-spacing: -0.2px;
     }
 
     .order-btn:active {
-      background: #a80000;
+      background: var(--cream2);
       transform: scale(0.96);
     }
 
-    /* DIVIDER */
-    .divider {
-      max-width: 480px;
-      margin: 24px auto 0;
-      border: none;
-      border-top: 1px solid #2a2a2a;
-    }
+    /* ── DIVIDER ── */
+    .section-gap { height: 8px; }
 
-    /* FOOTER */
+    /* ── FOOTER ── */
     .footer {
+      max-width: 480px;
+      margin: 32px auto 0;
+      padding: 24px 16px 48px;
       text-align: center;
-      padding: 28px 20px 44px;
-      color: #3a3a3a;
-      font-size: 12px;
+      border-top: 1px solid var(--border);
     }
 
-    .footer strong { color: #cc0000; }
+    .footer-logo { font-size: 18px; font-weight: 800; color: var(--cream); margin-bottom: 6px; }
+    .footer-sub { font-size: 12px; color: var(--muted); line-height: 1.6; }
   </style>
 </head>
 <body>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge">🍱 Kansai Osaka</div>
-  <h1>Combo Trưa<br/><span>Chuẩn Vị Nhật</span></h1>
-  <p class="hero-sub">Món chính + Súp Miso + Trà — tiết kiệm đến 27k</p>
-  <div class="hero-time">⏰ Phục vụ 11:00 – 14:00 mỗi ngày</div>
+  <div class="hero-bg"></div>
+
+  <div class="steam-container">
+    <div class="steam"></div>
+    <div class="steam"></div>
+    <div class="steam"></div>
+    <div class="steam"></div>
+    <div class="steam"></div>
+    <div class="bowl-emoji">🍛</div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-tag">🍱 Kansai Osaka</div>
+    <h1>Bữa trưa<br/><em>đáng tiền</em></h1>
+    <p class="hero-sub">Nhật chuẩn vị · Giá không chuẩn thị trường</p>
+    <div class="hero-office-tag">
+      💼 Dành cho dân văn phòng — ngon bằng nơi khác, giá nhẹ hơn 30–50%
+    </div>
+    <div class="hero-time">⏰ Combo trưa phục vụ <span>11:00 – 14:00</span> mỗi ngày</div>
+  </div>
+
+  <div class="scroll-hint"><span>menu</span></div>
 </div>
 
-<div class="save-banner">🔥 Gọi combo — tiết kiệm ngay 27.000₫ so với gọi lẻ</div>
+<!-- COMPARE BANNER -->
+<div class="compare-banner">
+  <div class="compare-item">
+    <div class="compare-label">Quán Nhật khác</div>
+    <div class="compare-price theirs">130–160k</div>
+  </div>
+  <div class="compare-vs">VS</div>
+  <div class="compare-item">
+    <div class="compare-label">Kansai Osaka</div>
+    <div class="compare-price ours">82–98k</div>
+  </div>
+  <div class="compare-save-tag">Tiết kiệm ~40%</div>
+</div>
 
 <!-- DÒNG KARE -->
 <div class="section">
-  <div class="section-title">🍛 Dòng Kare</div>
+  <div class="section-label">
+    <span class="section-label-text">Dòng Kare</span>
+    <div class="section-label-line"></div>
+  </div>
 
   <!-- Kare Chicken -->
-  <div class="card">
-    <img class="card-img"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Katsu_Curry_%28Japanese_Curry%29.jpg/800px-Katsu_Curry_%28Japanese_Curry%29.jpg"
-      alt="Kare Chicken Katsu"
-      onerror="this.style.background='#2a2a2a';this.style.height='60px'"/>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-name">Combo Kare Chicken</div>
+  <div class="food-card">
+    <div class="food-img-wrap">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Katsu_Curry_%28Japanese_Curry%29.jpg/800px-Katsu_Curry_%28Japanese_Curry%29.jpg"
+        alt="Kare Chicken Katsu"
+        onerror="this.parentNode.style.background='#1a1a1a';this.style.display='none'"/>
+      <div class="food-img-overlay"></div>
+      <span class="food-img-badge badge-value">🍃 Nhẹ nhàng</span>
+      <div class="food-img-name">
+        <div class="food-name">Kare Chicken Katsu</div>
       </div>
-      <p class="card-desc">Gà chiên giòn tan, sốt cà ri Nhật sánh đặc thơm nức — ấm bụng, no đủ, đúng vị.</p>
-      <div class="card-items">
-        <div class="card-item">🍛 Kare Chicken Katsu</div>
-        <div class="card-item">🍜 Súp Miso</div>
-        <div class="card-item">🧋 Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="food-body">
+      <p class="food-desc">Gà phi lê chiên xù vàng giòn, chan sốt cà ri Nhật sánh mịn — nhẹ hơn heo, không ngán, ăn xong vẫn tỉnh táo làm việc chiều.</p>
+      <div class="includes">
+        <span class="include-tag">🍛 Kare Chicken Katsu</span>
+        <span class="include-tag">🍜 Súp Miso</span>
+        <span class="include-tag">🧋 Trà tự chọn</span>
       </div>
-      <div class="card-footer">
-        <div>
-          <div class="price-original">Gọi lẻ: 115.000₫</div>
-          <div class="price-combo">88.000₫</div>
-          <div class="price-save">Tiết kiệm 27k ✓</div>
+      <div class="addon-section">
+        <div class="addon-title">✦ Upsell / Add-on</div>
+        <div class="addon-row">
+          <span class="addon-name">➕ Thêm cơm</span>
+          <span class="addon-price">+10k</span>
         </div>
-        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+        <div class="addon-row">
+          <span class="addon-name">🥤 Mua 2 nước</span>
+          <span class="addon-deal">Tặng 1 · tiết kiệm 23k</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="price-block">
+          <div class="price-compare">Gọi lẻ <s>115k</s> · Quán khác <s>~140k</s></div>
+          <div class="price-main">88.000₫</div>
+          <div class="price-save save-good">✓ Tiết kiệm 27k so với gọi lẻ</div>
+        </div>
+        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order →</a>
       </div>
     </div>
   </div>
 
   <!-- Kare Tonkatsu -->
-  <div class="card">
-    <img class="card-img"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Katsu_curry_by_Marshall_Astor.jpg/800px-Katsu_curry_by_Marshall_Astor.jpg"
-      alt="Kare Tonkatsu"
-      onerror="this.style.background='#2a2a2a';this.style.height='60px'"/>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-name">Combo Kare Tonkatsu</div>
-        <span class="card-badge badge-best">⭐ Bestseller</span>
+  <div class="food-card">
+    <div class="food-img-wrap">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Katsu_curry_by_Marshall_Astor.jpg/800px-Katsu_curry_by_Marshall_Astor.jpg"
+        alt="Kare Tonkatsu"
+        onerror="this.parentNode.style.background='#1a1a1a';this.style.display='none'"/>
+      <div class="food-img-overlay"></div>
+      <span class="food-img-badge badge-best">⭐ Bestseller #1</span>
+      <div class="food-img-name">
+        <div class="food-name">Kare Tonkatsu</div>
       </div>
-      <p class="card-desc">Heo dày cộp chiên giòn, chan cà ri vàng sánh — bestseller #1, có lý do của nó.</p>
-      <div class="card-items">
-        <div class="card-item">🍛 Kare Tonkatsu</div>
-        <div class="card-item">🍜 Súp Miso</div>
-        <div class="card-item">🧋 Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="food-body">
+      <p class="food-desc">Heo cắt dày, chiên giòn bên ngoài mềm mọng bên trong — chan cà ri vàng sánh, đậm đà. Một tô là no thật sự, không cần order thêm.</p>
+      <div class="includes">
+        <span class="include-tag">🍛 Kare Tonkatsu</span>
+        <span class="include-tag">🍜 Súp Miso</span>
+        <span class="include-tag">🧋 Trà tự chọn</span>
       </div>
-      <div class="card-footer">
-        <div>
-          <div class="price-original">Gọi lẻ: 122.000₫</div>
-          <div class="price-combo">95.000₫</div>
-          <div class="price-save">Tiết kiệm 27k ✓</div>
+      <div class="addon-section">
+        <div class="addon-title">✦ Upsell / Add-on</div>
+        <div class="addon-row">
+          <span class="addon-name">🥤 Mua 2 nước</span>
+          <span class="addon-deal">Tặng 1 · tiết kiệm 23k</span>
         </div>
-        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+        <div class="addon-row">
+          <span class="addon-name">➕ Takoyaki 6V</span>
+          <span class="addon-price">+25k</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="price-block">
+          <div class="price-compare">Gọi lẻ <s>122k</s> · Quán khác <s>~150k</s></div>
+          <div class="price-main">95.000₫</div>
+          <div class="price-save save-hot">🔥 Tiết kiệm 27k — bán chạy nhất</div>
+        </div>
+        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order →</a>
       </div>
     </div>
   </div>
 
   <!-- Kare Beef -->
-  <div class="card">
-    <img class="card-img"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Beef_curry_by_Alpha.jpg/800px-Beef_curry_by_Alpha.jpg"
-      alt="Kare Beef Yakiniku"
-      onerror="this.style.background='#2a2a2a';this.style.height='60px'"/>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-name">Combo Kare Beef</div>
-        <span class="card-badge badge-premium">🥩 Premium</span>
+  <div class="food-card">
+    <div class="food-img-wrap">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Beef_curry_by_Alpha.jpg/800px-Beef_curry_by_Alpha.jpg"
+        alt="Kare Beef Yakiniku"
+        onerror="this.parentNode.style.background='#1a1a1a';this.style.display='none'"/>
+      <div class="food-img-overlay"></div>
+      <span class="food-img-badge badge-premium">🥩 Premium</span>
+      <div class="food-img-name">
+        <div class="food-name">Kare Beef Yakiniku</div>
       </div>
-      <p class="card-desc">Bò áp chảo thơm khói, phủ cà ri đậm đà — ăn xong còn muốn thêm.</p>
-      <div class="card-items">
-        <div class="card-item">🍛 Kare Beef Yakiniku</div>
-        <div class="card-item">🍜 Súp Miso</div>
-        <div class="card-item">🧋 Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="food-body">
+      <p class="food-desc">Bò Yakiniku áp chảo thơm khói, thịt mềm ngọt — phủ cà ri sánh đậm. Chỉ hơn Tonkatsu 3k, nhưng là bò. Tự hiểu.</p>
+      <div class="includes">
+        <span class="include-tag">🍛 Kare Beef Yakiniku</span>
+        <span class="include-tag">🍜 Súp Miso</span>
+        <span class="include-tag">🧋 Trà tự chọn</span>
       </div>
-      <div class="card-footer">
-        <div>
-          <div class="price-original">Gọi lẻ: 125.000₫</div>
-          <div class="price-combo">98.000₫</div>
-          <div class="price-save">Tiết kiệm 27k ✓</div>
+      <div class="addon-section">
+        <div class="addon-title">✦ Upsell / Add-on</div>
+        <div class="addon-row">
+          <span class="addon-name">🥤 Mua 2 nước</span>
+          <span class="addon-deal">Tặng 1 · tiết kiệm 23k</span>
         </div>
-        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+        <div class="addon-row">
+          <span class="addon-name">➕ Thêm bò</span>
+          <span class="addon-price">+20k</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="price-block">
+          <div class="price-compare">Gọi lẻ <s>125k</s> · Quán khác <s>~160k</s></div>
+          <div class="price-main">98.000₫</div>
+          <div class="price-save save-good">✓ Chỉ hơn Tonkatsu 3k — là bò</div>
+        </div>
+        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order →</a>
       </div>
     </div>
   </div>
 </div>
 
-<hr class="divider"/>
-
 <!-- DÒNG KATSUDON -->
 <div class="section">
-  <div class="section-title">🍚 Dòng Katsudon</div>
+  <div class="section-label">
+    <span class="section-label-text">Dòng Katsudon</span>
+    <div class="section-label-line"></div>
+  </div>
 
   <!-- Chicken Katsudon -->
-  <div class="card">
-    <img class="card-img"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Katsudon_%28Japanese_dish%29.jpg/800px-Katsudon_%28Japanese_dish%29.jpg"
-      alt="Chicken Katsudon"
-      onerror="this.style.background='#2a2a2a';this.style.height='60px'"/>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-name">Combo Chicken Katsudon</div>
+  <div class="food-card">
+    <div class="food-img-wrap">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Katsudon_%28Japanese_dish%29.jpg/800px-Katsudon_%28Japanese_dish%29.jpg"
+        alt="Chicken Katsudon"
+        onerror="this.parentNode.style.background='#1a1a1a';this.style.display='none'"/>
+      <div class="food-img-overlay"></div>
+      <span class="food-img-badge badge-value">💸 Rẻ nhất hôm nay</span>
+      <div class="food-img-name">
+        <div class="food-name">Chicken Katsudon</div>
       </div>
-      <p class="card-desc">Gà chiên thấm dashi ngọt thanh, trứng onsen lòng đào mềm mịn — ấm bụng chuẩn vị Nhật.</p>
-      <div class="card-items">
-        <div class="card-item">🍚 Chicken Katsudon</div>
-        <div class="card-item">🍜 Súp Miso</div>
-        <div class="card-item">🧋 Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="food-body">
+      <p class="food-desc">Tô cơm nóng, gà chiên thấm dashi ngọt, trứng onsen lòng đào mềm mịn phủ đều. Ấm, no, nhẹ — ăn xong không buồn ngủ.</p>
+      <div class="includes">
+        <span class="include-tag">🍚 Chicken Katsudon</span>
+        <span class="include-tag">🍜 Súp Miso</span>
+        <span class="include-tag">🧋 Trà tự chọn</span>
       </div>
-      <div class="card-footer">
-        <div>
-          <div class="price-original">Gọi lẻ: 109.000₫</div>
-          <div class="price-combo">82.000₫</div>
-          <div class="price-save">Tiết kiệm 27k ✓</div>
+      <div class="addon-section">
+        <div class="addon-title">✦ Upsell / Add-on</div>
+        <div class="addon-row">
+          <span class="addon-name">🥤 Mua 2 nước</span>
+          <span class="addon-deal">Tặng 1 · tiết kiệm 23k</span>
         </div>
-        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+        <div class="addon-row">
+          <span class="addon-name">➕ Thêm trứng onsen</span>
+          <span class="addon-price">+8k</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="price-block">
+          <div class="price-compare">Gọi lẻ <s>109k</s> · Quán khác <s>~130k</s></div>
+          <div class="price-main">82.000₫</div>
+          <div class="price-save save-hot">🔥 Tiết kiệm 27k — giá tốt nhất menu</div>
+        </div>
+        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order →</a>
       </div>
     </div>
   </div>
 
   <!-- Pork Katsudon -->
-  <div class="card">
-    <img class="card-img"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/twenty/Katsudon_%28pork_cutlet_rice_bowl%29.jpg/800px-Katsudon_%28pork_cutlet_rice_bowl%29.jpg"
-      alt="Pork Katsudon"
-      onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Katsudon_%28Japanese_dish%29.jpg/800px-Katsudon_%28Japanese_dish%29.jpg'"/>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-name">Combo Pork Katsudon</div>
+  <div class="food-card">
+    <div class="food-img-wrap">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Katsudon_%28Japanese_dish%29.jpg/800px-Katsudon_%28Japanese_dish%29.jpg"
+        alt="Pork Katsudon"
+        onerror="this.parentNode.style.background='#1a1a1a';this.style.display='none'"/>
+      <div class="food-img-overlay"></div>
+      <span class="food-img-badge badge-value">🍳 Classic</span>
+      <div class="food-img-name">
+        <div class="food-name">Pork Katsudon</div>
       </div>
-      <p class="card-desc">Heo chiên giòn ngâm dashi, trứng onsen béo ngậy — cơm hút đẫm nước, ăn một lần nhớ mãi.</p>
-      <div class="card-items">
-        <div class="card-item">🍚 Pork Katsudon</div>
-        <div class="card-item">🍜 Súp Miso</div>
-        <div class="card-item">🧋 Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="food-body">
+      <p class="food-desc">Heo chiên giòn ngâm dashi đậm, trứng onsen béo ngậy — cơm hút đẫm nước. Ăn một lần là nhớ. Đây là bản gốc Osaka.</p>
+      <div class="includes">
+        <span class="include-tag">🍚 Pork Katsudon</span>
+        <span class="include-tag">🍜 Súp Miso</span>
+        <span class="include-tag">🧋 Trà tự chọn</span>
       </div>
-      <div class="card-footer">
-        <div>
-          <div class="price-original">Gọi lẻ: 115.000₫</div>
-          <div class="price-combo">88.000₫</div>
-          <div class="price-save">Tiết kiệm 27k ✓</div>
+      <div class="addon-section">
+        <div class="addon-title">✦ Upsell / Add-on</div>
+        <div class="addon-row">
+          <span class="addon-name">🥤 Mua 2 nước</span>
+          <span class="addon-deal">Tặng 1 · tiết kiệm 23k</span>
         </div>
-        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+        <div class="addon-row">
+          <span class="addon-name">➕ Thêm cốt lết</span>
+          <span class="addon-price">+18k</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="price-block">
+          <div class="price-compare">Gọi lẻ <s>115k</s> · Quán khác <s>~140k</s></div>
+          <div class="price-main">88.000₫</div>
+          <div class="price-save save-good">✓ Tiết kiệm 27k — bản gốc Osaka</div>
+        </div>
+        <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order →</a>
       </div>
     </div>
   </div>
@@ -387,9 +718,23 @@
 
 <!-- FOOTER -->
 <div class="footer">
-  <strong>Kansai Osaka</strong> — Bếp Nhật chuẩn vị<br/>
-  Order qua GrabFood · Combo có từ 11:00 – 14:00
+  <div class="footer-logo">🍱 Kansai Osaka</div>
+  <div class="footer-sub">
+    Bếp Nhật chuẩn vị · GrabFood<br/>
+    Combo trưa 11:00–14:00 · Giao tận nơi
+  </div>
 </div>
+
+<script>
+  // Zoom-in on scroll into view
+  const imgWraps = document.querySelectorAll('.food-img-wrap');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('active');
+    });
+  }, { threshold: 0.3 });
+  imgWraps.forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
