@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Biên Bản Nhận & Kiểm Hàng – Kansai Osaka</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; font-size: 12px; color: #000; background: #fff; padding: 20px; }
+
+    .header { text-align: center; margin-bottom: 16px; }
+    .header h2 { font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+    .header h3 { font-size: 13px; font-weight: bold; margin-top: 4px; }
+    .header p { font-size: 11px; color: #555; margin-top: 2px; }
+
+    .info-row { display: flex; gap: 24px; margin-bottom: 12px; }
+    .info-item { display: flex; gap: 6px; align-items: baseline; }
+    .info-label { font-weight: bold; white-space: nowrap; }
+    .info-line { border-bottom: 1px solid #000; min-width: 120px; flex: 1; }
+
+    table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    th { background: #222; color: #fff; padding: 6px 8px; font-size: 11px; text-align: center; }
+    td { border: 1px solid #aaa; padding: 6px 8px; font-size: 11px; vertical-align: middle; }
+    tr:nth-child(even) td { background: #f9f9f9; }
+    .center { text-align: center; }
+    .section-row td { background: #e8e8e8 !important; font-weight: bold; font-size: 11px; }
+
+    .result-row { margin-bottom: 10px; }
+    .result-row label { font-weight: bold; }
+    .result-line { display: inline-block; border-bottom: 1px solid #000; width: 340px; margin-left: 6px; }
+
+    .sign-row { display: flex; justify-content: space-between; margin-top: 20px; text-align: center; }
+    .sign-box { width: 30%; }
+    .sign-box p { font-weight: bold; margin-bottom: 48px; font-size: 11px; }
+    .sign-name { border-top: 1px solid #000; padding-top: 4px; font-size: 11px; color: #555; }
+
+    .note { font-size: 10px; color: #888; border-top: 1px dashed #ccc; padding-top: 8px; margin-top: 8px; }
+
+    @media print {
+      body { padding: 10px; }
+      @page { margin: 15mm; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h2>🍱 Kansai Osaka</h2>
+  <h3>BIÊN BẢN NHẬN & KIỂM HÀNG</h3>
+  <p>In ra – ký tên – lưu hồ sơ</p>
+</div>
+
+<div class="info-row">
+  <div class="info-item"><span class="info-label">Ngày:</span><span class="info-line"></span></div>
+  <div class="info-item"><span class="info-label">Giờ nhận:</span><span class="info-line"></span></div>
+  <div class="info-item"><span class="info-label">Người nhận:</span><span class="info-line"></span></div>
+</div>
+<div class="info-row">
+  <div class="info-item"><span class="info-label">Nhà cung cấp:</span><span class="info-line"></span></div>
+  <div class="info-item"><span class="info-label">Số PO/Order:</span><span class="info-line"></span></div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:4%">#</th>
+      <th style="width:20%">Mặt hàng</th>
+      <th style="width:14%">SL đặt</th>
+      <th style="width:14%">SL nhận</th>
+      <th style="width:22%">Tiêu chuẩn kiểm</th>
+      <th style="width:10%">Đạt ✓/✗</th>
+      <th style="width:16%">Ghi chú</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="section-row"><td colspan="7">🥩 THỊT / HẢI SẢN</td></tr>
+    <tr>
+      <td class="center">1</td>
+      <td>Cốt lết heo</td>
+      <td class="center">___ kg</td>
+      <td>Thịt: ___ kg<br/>Xương: ___ kg</td>
+      <td>Hồng nhạt, mỡ trắng, không hôi</td>
+      <td class="center"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="center">2</td>
+      <td>Ức gà phi lê (không da)</td>
+      <td class="center">___ kg</td>
+      <td class="center">___ kg</td>
+      <td>Hồng nhạt, không nhớt, không mùi</td>
+      <td class="center"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="center">3</td>
+      <td>Tôm (size 30c/kg)</td>
+      <td class="center">___ kg</td>
+      <td class="center">___ kg</td>
+      <td>Vỏ bóng, thân chắc, không mùi</td>
+      <td class="center"></td>
+      <td></td>
+    </tr>
+    <tr class="section-row"><td colspan="7">🥬 RAU CỦ</td></tr>
+    <tr>
+      <td class="center">4</td>
+      <td>Cà rốt</td>
+      <td class="center">___ kg</td>
+      <td class="center">___ kg</td>
+      <td>Cứng, không thâm, không lá, không mốc</td>
+      <td class="center"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="center">5</td>
+      <td>Khoai tây</td>
+      <td class="center">___ kg</td>
+      <td class="center">___ kg</td>
+      <td>Củ cứng, không có mầm</td>
+      <td class="center"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="center">6</td>
+      <td>Hành tây</td>
+      <td class="center">___ kg</td>
+      <td class="center">___ kg</td>
+      <td>Củ cứng, không mềm, không thối vỏ</td>
+      <td class="center"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="center">7</td>
+      <td>Bắp cải</td>
+      <td class="center">___ kg</td>
+      <td class="center">___ kg</td>
+      <td>Không thối lá, không sâu, không nứt</td>
+      <td class="center"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="center">8</td>
+      <td>Bắp Mỹ</td>
+      <td class="center">___ trái</td>
+      <td class="center">___ trái</td>
+      <td>Màu vàng đẹp, không thâm, hạt cứng</td>
+      <td class="center"></td>
+      <td></td>
+    </tr>
+    <tr class="section-row"><td colspan="7">🧊 KHÁC</td></tr>
+    <tr>
+      <td class="center">9</td>
+      <td>Đậu hủ</td>
+      <td class="center">___ hộp</td>
+      <td class="center">___ hộp</td>
+      <td>Hộp nguyên, không bể<br/>HSD: ___________</td>
+      <td class="center"></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="result-row">
+  <label>Kết quả tổng:</label>
+  <span>☐ Đạt toàn bộ &nbsp;&nbsp; ☐ Có hàng không đạt (xem ghi chú)</span>
+</div>
+<div class="result-row">
+  <label>Xử lý hàng không đạt:</label>
+  <span class="result-line"></span>
+</div>
+
+<div class="sign-row">
+  <div class="sign-box">
+    <p>Người nhận hàng</p>
+    <div class="sign-name">(Ký & ghi rõ họ tên)</div>
+  </div>
+  <div class="sign-box">
+    <p>Bếp trưởng xác nhận</p>
+    <div class="sign-name">(Ký & ghi rõ họ tên)</div>
+  </div>
+  <div class="sign-box">
+    <p>Thu mua / NCC</p>
+    <div class="sign-name">(Ký & ghi rõ họ tên)</div>
+  </div>
+</div>
+
+<p class="note">* Biên bản này được lưu lại tại bếp. Trường hợp hàng không đạt → báo thu mua ngay, không nhập kho.</p>
+
+</body>
+</html>

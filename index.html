@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Combo Trưa – Kansai Osaka</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f0f0f;
+      color: #f5f0e8;
+      min-height: 100vh;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #1a0a00 0%, #2d1200 50%, #1a0a00 100%);
+      text-align: center;
+      padding: 48px 20px 36px;
+      border-bottom: 2px solid #c8732a;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: #c8732a;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 span { color: #f0a050; }
+
+    .hero-sub {
+      font-size: 14px;
+      color: #b09070;
+      margin-bottom: 20px;
+    }
+
+    .hero-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(200,115,42,0.15);
+      border: 1px solid #c8732a;
+      border-radius: 24px;
+      padding: 6px 18px;
+      font-size: 13px;
+      color: #f0a050;
+      font-weight: 600;
+    }
+
+    /* SAVE BADGE */
+    .save-banner {
+      background: #c8732a;
+      text-align: center;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+
+    /* SECTION */
+    .section {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 28px 16px 0;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #c8732a;
+      margin-bottom: 14px;
+      padding-left: 4px;
+    }
+
+    /* CARD */
+    .card {
+      background: #1a1510;
+      border: 1px solid #2e2018;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .card:active { border-color: #c8732a; }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .card-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .card-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+
+    .badge-best { background: #c8732a; color: #fff; }
+    .badge-premium { background: #1a3a1a; color: #4caf50; border: 1px solid #4caf50; }
+
+    .card-desc {
+      font-size: 13px;
+      color: #8a7060;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .card-items {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 16px;
+    }
+
+    .card-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #c8b090;
+    }
+
+    .card-item-icon { font-size: 15px; }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price-block {}
+
+    .price-original {
+      font-size: 11px;
+      color: #5a4a3a;
+      text-decoration: line-through;
+      margin-bottom: 1px;
+    }
+
+    .price-combo {
+      font-size: 22px;
+      font-weight: 800;
+      color: #f0a050;
+    }
+
+    .price-save {
+      font-size: 11px;
+      color: #c8732a;
+      font-weight: 600;
+      margin-top: 1px;
+    }
+
+    .order-btn {
+      background: #c8732a;
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .order-btn:active {
+      background: #a85c20;
+      transform: scale(0.97);
+    }
+
+    /* DIVIDER */
+    .divider {
+      max-width: 480px;
+      margin: 28px auto 0;
+      border: none;
+      border-top: 1px solid #2e2018;
+    }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      padding: 32px 20px 40px;
+      color: #4a3a2a;
+      font-size: 12px;
+    }
+
+    .footer strong { color: #7a6050; }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🍱 Kansai Osaka</div>
+  <h1>Combo Trưa<br/><span>Chuẩn Vị Nhật</span></h1>
+  <p class="hero-sub">Món chính + Súp Miso + Trà — tiết kiệm đến 27k</p>
+  <div class="hero-time">⏰ Phục vụ 11:00 – 14:00 mỗi ngày</div>
+</div>
+
+<!-- SAVE BANNER -->
+<div class="save-banner">🔥 Gọi combo — tiết kiệm ngay 27.000₫ so với gọi lẻ</div>
+
+<!-- DÒNG KARE -->
+<div class="section">
+  <div class="section-title">🍛 Dòng Kare</div>
+
+  <!-- Kare Chicken -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-name">Combo Kare Chicken</div>
+    </div>
+    <p class="card-desc">Gà chiên giòn tan, sốt cà ri Nhật sánh đặc thơm nức — ấm bụng, no đủ, đúng vị.</p>
+    <div class="card-items">
+      <div class="card-item"><span class="card-item-icon">🍛</span> Kare Chicken Katsu</div>
+      <div class="card-item"><span class="card-item-icon">🍜</span> Súp Miso</div>
+      <div class="card-item"><span class="card-item-icon">🧋</span> Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="card-footer">
+      <div class="price-block">
+        <div class="price-original">Gọi lẻ: 115.000₫</div>
+        <div class="price-combo">88.000₫</div>
+        <div class="price-save">Tiết kiệm 27k ✓</div>
+      </div>
+      <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+    </div>
+  </div>
+
+  <!-- Kare Tonkatsu -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-name">Combo Kare Tonkatsu</div>
+      <span class="card-badge badge-best">⭐ Bestseller</span>
+    </div>
+    <p class="card-desc">Heo dày cộp chiên giòn, chan cà ri vàng sánh — bestseller #1, có lý do của nó.</p>
+    <div class="card-items">
+      <div class="card-item"><span class="card-item-icon">🍛</span> Kare Tonkatsu</div>
+      <div class="card-item"><span class="card-item-icon">🍜</span> Súp Miso</div>
+      <div class="card-item"><span class="card-item-icon">🧋</span> Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="card-footer">
+      <div class="price-block">
+        <div class="price-original">Gọi lẻ: 122.000₫</div>
+        <div class="price-combo">95.000₫</div>
+        <div class="price-save">Tiết kiệm 27k ✓</div>
+      </div>
+      <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+    </div>
+  </div>
+
+  <!-- Kare Beef -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-name">Combo Kare Beef</div>
+      <span class="card-badge badge-premium">🥩 Premium</span>
+    </div>
+    <p class="card-desc">Bò áp chảo thơm khói, phủ cà ri đậm đà — ăn xong còn muốn thêm.</p>
+    <div class="card-items">
+      <div class="card-item"><span class="card-item-icon">🍛</span> Kare Beef Yakiniku</div>
+      <div class="card-item"><span class="card-item-icon">🍜</span> Súp Miso</div>
+      <div class="card-item"><span class="card-item-icon">🧋</span> Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="card-footer">
+      <div class="price-block">
+        <div class="price-original">Gọi lẻ: 125.000₫</div>
+        <div class="price-combo">98.000₫</div>
+        <div class="price-save">Tiết kiệm 27k ✓</div>
+      </div>
+      <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- DÒNG KATSUDON -->
+<div class="section">
+  <div class="section-title">🍚 Dòng Katsudon</div>
+
+  <!-- Chicken Katsudon -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-name">Combo Chicken Katsudon</div>
+    </div>
+    <p class="card-desc">Gà chiên thấm dashi ngọt thanh, trứng onsen lòng đào mềm mịn — ấm bụng chuẩn vị Nhật.</p>
+    <div class="card-items">
+      <div class="card-item"><span class="card-item-icon">🍚</span> Chicken Katsudon</div>
+      <div class="card-item"><span class="card-item-icon">🍜</span> Súp Miso</div>
+      <div class="card-item"><span class="card-item-icon">🧋</span> Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="card-footer">
+      <div class="price-block">
+        <div class="price-original">Gọi lẻ: 109.000₫</div>
+        <div class="price-combo">82.000₫</div>
+        <div class="price-save">Tiết kiệm 27k ✓</div>
+      </div>
+      <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+    </div>
+  </div>
+
+  <!-- Pork Katsudon -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-name">Combo Pork Katsudon</div>
+    </div>
+    <p class="card-desc">Heo chiên giòn ngâm dashi, trứng onsen béo ngậy — cơm hút đẫm nước, ăn một lần nhớ mãi.</p>
+    <div class="card-items">
+      <div class="card-item"><span class="card-item-icon">🍚</span> Pork Katsudon</div>
+      <div class="card-item"><span class="card-item-icon">🍜</span> Súp Miso</div>
+      <div class="card-item"><span class="card-item-icon">🧋</span> Trà Chanh Thái Xanh / Trà Tắc Thái Đỏ</div>
+    </div>
+    <div class="card-footer">
+      <div class="price-block">
+        <div class="price-original">Gọi lẻ: 115.000₫</div>
+        <div class="price-combo">88.000₫</div>
+        <div class="price-save">Tiết kiệm 27k ✓</div>
+      </div>
+      <a class="order-btn" href="https://r.grab.com/g/6-20260303_005454_1E8B321326D24E8E82F722A738B7BF68_MEXMPS-5-C7BKTKLGR8NHTN" target="_blank">Order ngay →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>Kansai Osaka</strong> — Bếp Nhật chuẩn vị<br/>
+  Order qua GrabFood · Combo có từ 11:00 – 14:00
+</div>
+
+</body>
+</html>

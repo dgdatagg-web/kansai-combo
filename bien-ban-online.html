@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kiểm Hàng – Kansai Osaka</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f2f4f7; color: #1a1a1a; min-height: 100vh; padding-bottom: 40px; }
+
+    .topbar { background: #1a1a2e; color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .topbar h1 { font-size: 15px; font-weight: 700; }
+    .topbar span { font-size: 11px; color: #aaa; }
+
+    .meta { background: #fff; padding: 16px 20px; border-bottom: 1px solid #e0e0e0; display: flex; flex-wrap: wrap; gap: 12px; }
+    .meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .meta-item label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: 600; }
+    .meta-item input { border: 1px solid #ddd; border-radius: 8px; padding: 6px 10px; font-size: 13px; width: 150px; }
+
+    .section { margin: 14px 16px 0; }
+    .section-title { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #888; margin-bottom: 8px; padding-left: 4px; }
+
+    .item-card { background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; border: 2px solid transparent; transition: border-color 0.2s; }
+    .item-card.pass { border-color: #4caf50; }
+    .item-card.fail { border-color: #f44336; }
+
+    .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .item-name { font-size: 14px; font-weight: 700; }
+    .toggle-row { display: flex; gap: 8px; }
+    .btn-pass, .btn-fail { border: none; border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .btn-pass { background: #e8f5e9; color: #2e7d32; }
+    .btn-pass.active { background: #4caf50; color: #fff; }
+    .btn-fail { background: #fce4e4; color: #c62828; }
+    .btn-fail.active { background: #f44336; color: #fff; }
+
+    .item-std { font-size: 11px; color: #888; margin-bottom: 8px; }
+
+    .qty-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .qty-item { display: flex; flex-direction: column; gap: 3px; }
+    .qty-item label { font-size: 10px; color: #aaa; text-transform: uppercase; }
+    .qty-item input { border: 1px solid #ddd; border-radius: 8px; padding: 5px 8px; font-size: 13px; width: 90px; }
+
+    .note-input { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 6px 10px; font-size: 12px; margin-top: 8px; color: #555; resize: none; }
+
+    .submit-area { margin: 20px 16px 0; }
+    .btn-submit { width: 100%; background: #1a1a2e; color: #fff; border: none; border-radius: 12px; padding: 16px; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .btn-submit:active { background: #333; }
+
+    .summary { margin: 12px 16px 0; background: #fff; border-radius: 12px; padding: 14px 16px; display: none; }
+    .summary h3 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+    .summary-item { font-size: 12px; padding: 4px 0; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; }
+    .tag-pass { color: #4caf50; font-weight: 700; }
+    .tag-fail { color: #f44336; font-weight: 700; }
+    .tag-skip { color: #aaa; }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>🍱 Kiểm Hàng – Kansai Osaka</h1>
+  <span id="dateDisplay"></span>
+</div>
+
+<div class="meta">
+  <div class="meta-item">
+    <label>Giờ nhận</label>
+    <input type="time" id="timeInput"/>
+  </div>
+  <div class="meta-item">
+    <label>Người nhận</label>
+    <input type="text" id="receiverInput" placeholder="Tên..."/>
+  </div>
+  <div class="meta-item">
+    <label>Nhà cung cấp</label>
+    <input type="text" id="supplierInput" placeholder="NCC..."/>
+  </div>
+</div>
+
+<!-- THỊT / HẢI SẢN -->
+<div class="section">
+  <div class="section-title">🥩 Thịt / Hải sản</div>
+
+  <div class="item-card" id="card-1">
+    <div class="item-header">
+      <div class="item-name">Cốt lết heo</div>
+      <div class="toggle-row">
+        <button class="btn-pass" onclick="setStatus(1,'pass')">✓ Đạt</button>
+        <button class="btn-fail" onclick="setStatus(1,'fail')">✗ Không đạt</button>
+      </div>
+    </div>
+    <div class="item-std">Hồng nhạt · Mỡ trắng · Không hôi</div>
+    <div class="qty-row">
+      <div class="qty-item"><label>Đặt (kg)</label><input type="number" placeholder="0" id="q1-order"/></div>
+      <div class="qty-item"><label>Nhận thịt (kg)</label><input type="number" placeholder="0" id="q1-meat"/></div>
+      <div class="qty-item"><label>Nhận xương (kg)</label><input type="number" placeholder="0" id="q1-bone"/></div>
+    </div>
+    <textarea class="note-input" rows="1" placeholder="Ghi chú (nếu có)..." id="n1"></textarea>
+  </div>
+
+  <div class="item-card" id="card-2">
+    <div class="item-header">
+      <div class="item-name">Ức gà phi lê (không da)</div>
+      <div class="toggle-row">
+        <button class="btn-pass" onclick="setStatus(2,'pass')">✓ Đạt</button>
+        <button class="btn-fail" onclick="setStatus(2,'fail')">✗ Không đạt</button>
+      </div>
+    </div>
+    <div class="item-std">Hồng nhạt · Không nhớt · Không mùi</div>
+    <div class="qty-row">
+      <div class="qty-item"><label>Đặt (kg)</label><input type="number" placeholder="0" id="q2-order"/></div>
+      <div class="qty-item"><label>Nhận (kg)</label><input type="number" placeholder="0" id="q2-recv"/></div>
+    </div>
+    <textarea class="note-input" rows="1" placeholder="Ghi chú (nếu có)..." id="n2"></textarea>
+  </div>
+
+  <div class="item-card" id="card-3">
+    <div class="item-header">
+      <div class="item-name">Tôm (size 30c/kg)</div>
+      <div class="toggle-row">
+        <button class="btn-pass" onclick="setStatus(3,'pass')">✓ Đạt</button>
+        <button class="btn-fail" onclick="setStatus(3,'fail')">✗ Không đạt</button>
+      </div>
+    </div>
+    <div class="item-std">Vỏ bóng · Thân chắc · Không mùi</div>
+    <div class="qty-row">
+      <div class="qty-item"><label>Đặt (kg)</label><input type="number" placeholder="0" id="q3-order"/></div>
+      <div class="qty-item"><label>Nhận (kg)</label><input type="number" placeholder="0" id="q3-recv"/></div>
+    </div>
+    <textarea class="note-input" rows="1" placeholder="Ghi chú (nếu có)..." id="n3"></textarea>
+  </div>
+</div>
+
+<!-- RAU CỦ -->
+<div class="section">
+  <div class="section-title">🥬 Rau củ</div>
+
+  <div class="item-card" id="card-4">
+    <div class="item-header">
+      <div class="item-name">Cà rốt</div>
+      <div class="toggle-row">
+        <button class="btn-pass" onclick="setStatus(4,'pass')">✓ Đạt</button>
+        <button class="btn-fail" onclick="setStatus(4,'fail')">✗ Không đạt</button>
+      </div>
+    </div>
+    <div class="item-std">Cứng · Không thâm · Không lá · Không mốc</div>
+    <div class="qty-row">
+      <div class="qty-item"><label>Đặt (kg)</label><input type="number" placeholder="0" id="q4-order"/></div>
+      <div class="qty-item"><label>Nhận (kg)</label><input type="number" placeholder="0" id="q4-recv"/></div>
+    </div>
+    <textarea class="note-input" rows="1" placeholder="Ghi chú (nếu có)..." id="n4"></textarea>
+  </div>
+
+  <div class="item-card" id="card-5">
+    <div class="item-header">
+      <div class="item-name">Khoai tây</div>
+      <div class="toggle-row">
+        <button class="btn-pass" onclick="setStatus(5,'pass')">✓ Đạt</button>
+        <button class="btn-fail" onclick="setStatus(5,'fail')">✗ Không đạt</button>
+      </div>
+    </div>
+    <div class="item-std">Củ cứng · Không có mầm</div>
+    <div class="qty-row">
+      <div class="qty-item"><label>Đặt (kg)</label><input type="number" placeholder="0" id="q5-order"/></div>
+      <div class="qty-item"><label>Nhận (kg)</label><input type="number" placeholder="0" id="q5-recv"/></div>
+    </div>
+    <textarea class="note-input" rows="1" placeholder="Ghi chú (nếu có)..." id="n5"></textarea>
+  </div>
+
+  <div class="item-card" id="card-6">
+    <div class="item-header">
+      <div class="item-name">Hành tây</div>
+      <div class="toggle-row">
+        <button class="btn-pass" onclick="setStatus(6,'pass')">✓ Đạt</button>
+        <button class="btn-fail" onclick="setStatus(6,'fail')">✗ Không đạt</button>
+      </div>
+    </div>
+    <div class="item-std">Củ cứng · Không mềm · Không thối vỏ · Không dập</div>
+    <div class="qty-row">
+      <div class="qty-item"><label>Đặt (kg)</label><input type="number" placeholder="0" id="q6-order"/></div>
+      <div class="qty-item"><label>Nhận (kg)</label><input type="number" placeholder="0" id="q6-recv"/></div>
+    </div>
+    <textarea class="note-input" rows="1" placeholder="Ghi chú (nếu có)..." id="n6"></textarea>
+  </div>
+
+  <div class="item-card" id="card-7">
+    <div class="item-header">
+      <div class="item-name">Bắp cải</div>
+      <div class="toggle-row">
+        <button class="btn-pass" onclick="setStatus(7,'pass')">✓ Đạt</button>
+        <button class="btn-fail" onclick="setStatus(7,'fail')">✗ Không đạt</button>
+      </div>
+    </div>
+    <div class="item-std">Không thối lá · Không sâu đục · Không ủng cuốn · Không nứt</div>
+    <div class="qty-row">
+      <div class="qty-item"><label>Đặt (kg)</label><input type="number" placeholder="0" id="q7-order"/></div>
+      <div class="qty-item"><label>Nhận (kg)</label><input type="number" placeholder="0" id="q7-recv"/></div>
+    </div>
+    <textarea class="note-input" rows="1" placeholder="Ghi chú (nếu có)..." id="n7"></textarea>
+  </div>
+
+  <div class="item-card" id="card-8">
+    <div class="item-header">
+      <div class="item-name">Bắp Mỹ</div>
+      <div class="toggle-row">
+        <button class="btn-pass" onclick="setStatus(8,'pass')">✓ Đạt</button>
+        <button class="btn-fail" onclick="setStatus(8,'fail')">✗ Không đạt</button>
+      </div>
+    </div>
+    <div class="item-std">Màu vàng đẹp · Không thâm · Hạt cứng</div>
+    <div class="qty-row">
+      <div class="qty-item"><label>Đặt (trái)</label><input type="number" placeholder="0" id="q8-order"/></div>
+      <div class="qty-item"><label>Nhận (trái)</label><input type="number" placeholder="0" id="q8-recv"/></div>
+    </div>
+    <textarea class="note-input" rows="1" placeholder="Ghi chú (nếu có)..." id="n8"></textarea>
+  </div>
+</div>
+
+<!-- KHÁC -->
+<div class="section">
+  <div class="section-title">🧊 Khác</div>
+
+  <div class="item-card" id="card-9">
+    <div class="item-header">
+      <div class="item-name">Đậu hủ</div>
+      <div class="toggle-row">
+        <button class="btn-pass" onclick="setStatus(9,'pass')">✓ Đạt</button>
+        <button class="btn-fail" onclick="setStatus(9,'fail')">✗ Không đạt</button>
+      </div>
+    </div>
+    <div class="item-std">Hộp nguyên · Không bể · Kiểm HSD</div>
+    <div class="qty-row">
+      <div class="qty-item"><label>Đặt (hộp)</label><input type="number" placeholder="0" id="q9-order"/></div>
+      <div class="qty-item"><label>Nhận (hộp)</label><input type="number" placeholder="0" id="q9-recv"/></div>
+      <div class="qty-item"><label>HSD</label><input type="date" id="q9-exp"/></div>
+    </div>
+    <textarea class="note-input" rows="1" placeholder="Ghi chú (nếu có)..." id="n9"></textarea>
+  </div>
+</div>
+
+<div class="submit-area">
+  <button class="btn-submit" onclick="submitForm()">✅ Xác nhận & Lưu biên bản</button>
+</div>
+
+<div class="summary" id="summary">
+  <h3>📋 Tóm tắt biên bản</h3>
+  <div id="summaryContent"></div>
+</div>
+
+<script>
+  const statuses = {};
+  const items = {
+    1: 'Cốt lết heo', 2: 'Ức gà phi lê', 3: 'Tôm',
+    4: 'Cà rốt', 5: 'Khoai tây', 6: 'Hành tây',
+    7: 'Bắp cải', 8: 'Bắp Mỹ', 9: 'Đậu hủ'
+  };
+
+  // Set date
+  const now = new Date();
+  document.getElementById('dateDisplay').textContent =
+    now.toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  // Set current time
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('timeInput').value = hh + ':' + mm;
+
+  function setStatus(id, status) {
+    statuses[id] = status;
+    const card = document.getElementById('card-' + id);
+    card.classList.remove('pass', 'fail');
+    card.classList.add(status);
+    const btns = card.querySelectorAll('.btn-pass, .btn-fail');
+    btns.forEach(b => b.classList.remove('active'));
+    if (status === 'pass') card.querySelector('.btn-pass').classList.add('active');
+    else card.querySelector('.btn-fail').classList.add('active');
+  }
+
+  function submitForm() {
+    const summary = document.getElementById('summary');
+    const content = document.getElementById('summaryContent');
+    let html = '';
+    let failCount = 0;
+
+    for (let i = 1; i <= 9; i++) {
+      const s = statuses[i];
+      const note = document.getElementById('n' + i).value;
+      let tag, tagClass;
+      if (s === 'pass') { tag = '✓ Đạt'; tagClass = 'tag-pass'; }
+      else if (s === 'fail') { tag = '✗ Không đạt'; tagClass = 'tag-fail'; failCount++; }
+      else { tag = '— Chưa kiểm'; tagClass = 'tag-skip'; }
+
+      html += `<div class="summary-item">
+        <span>${items[i]}${note ? ' · <em>' + note + '</em>' : ''}</span>
+        <span class="${tagClass}">${tag}</span>
+      </div>`;
+    }
+
+    if (failCount > 0) {
+      html += `<div style="margin-top:10px;padding:10px;background:#fce4e4;border-radius:8px;font-size:12px;color:#c62828;font-weight:700;">
+        ⚠️ ${failCount} mặt hàng không đạt — báo thu mua ngay, không nhập kho!
+      </div>`;
+    } else {
+      html += `<div style="margin-top:10px;padding:10px;background:#e8f5e9;border-radius:8px;font-size:12px;color:#2e7d32;font-weight:700;">
+        ✅ Tất cả đạt yêu cầu — nhập kho được.
+      </div>`;
+    }
+
+    content.innerHTML = html;
+    summary.style.display = 'block';
+    summary.scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
