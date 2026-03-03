@@ -35,9 +35,26 @@
 
     .note { font-size: 10px; color: #888; border-top: 1px dashed #ccc; padding-top: 8px; margin-top: 8px; }
 
+    /* --- SOP PHOTO SECTION --- */
+    .sop-section { margin-top: 24px; page-break-before: always; }
+    .sop-section h4 { font-size: 13px; font-weight: bold; text-transform: uppercase; text-align: center; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 14px; letter-spacing: 1px; }
+    .sop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .sop-card { border: 1px solid #aaa; border-radius: 4px; overflow: hidden; }
+    .sop-card-header { background: #222; color: #fff; font-size: 10px; font-weight: bold; padding: 5px 8px; }
+    .sop-photo-box { width: 100%; height: 90px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-bottom: 1px dashed #ccc; position: relative; }
+    .sop-photo-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .sop-photo-placeholder { font-size: 10px; color: #aaa; text-align: center; padding: 8px; }
+    .sop-photo-label { font-size: 9px; color: #777; font-style: italic; position: absolute; bottom: 3px; right: 5px; }
+    .sop-criteria { padding: 6px 8px; font-size: 10px; line-height: 1.5; }
+    .sop-criteria span { display: block; }
+    .sop-criteria .ok { color: #155724; }
+    .sop-criteria .nok { color: #721c24; }
+    .sop-photo-upload { display: block; width: 100%; font-size: 9px; color: #888; border-top: 1px dashed #ccc; padding: 4px 8px; }
+
     @media print {
       body { padding: 10px; }
       @page { margin: 15mm; }
+      .sop-section { page-break-before: always; }
     }
   </style>
 </head>
@@ -184,6 +201,158 @@
 </div>
 
 <p class="note">* Biên bản này được lưu lại tại bếp. Trường hợp hàng không đạt → báo thu mua ngay, không nhập kho.</p>
+
+<!-- ============================================================ -->
+<!--  TRANG 2 — HÌNH ẢNH TIÊU CHUẨN SOP KIỂM HÀNG               -->
+<!-- ============================================================ -->
+<div class="sop-section">
+  <h4>📸 Hình ảnh tiêu chuẩn SOP – Kiểm hàng nhập</h4>
+  <p style="text-align:center;font-size:10px;color:#555;margin-bottom:14px;">Dán ảnh thực tế hoặc in kèm ảnh mẫu để đối chiếu khi nhận hàng</p>
+
+  <div class="sop-grid">
+
+    <!-- 1. Cốt lết heo -->
+    <div class="sop-card">
+      <div class="sop-card-header">1. Cốt lết heo</div>
+      <div class="sop-photo-box">
+        <div class="sop-photo-placeholder">📷 Dán ảnh hàng ĐẠT<br/>(màu hồng nhạt, mỡ trắng)</div>
+        <span class="sop-photo-label">Ảnh ĐẠT</span>
+      </div>
+      <div class="sop-criteria">
+        <span class="ok">✓ Hồng nhạt, mỡ trắng trong</span>
+        <span class="ok">✓ Không hôi, không nhớt</span>
+        <span class="nok">✗ Xám / thâm / mùi lạ → Từ chối</span>
+      </div>
+      <span class="sop-photo-upload">📎 Ảnh thực nhận: ______________</span>
+    </div>
+
+    <!-- 2. Ức gà -->
+    <div class="sop-card">
+      <div class="sop-card-header">2. Ức gà phi lê (không da)</div>
+      <div class="sop-photo-box">
+        <div class="sop-photo-placeholder">📷 Dán ảnh hàng ĐẠT<br/>(hồng nhạt, sạch, không nhớt)</div>
+        <span class="sop-photo-label">Ảnh ĐẠT</span>
+      </div>
+      <div class="sop-criteria">
+        <span class="ok">✓ Hồng nhạt, bề mặt sạch</span>
+        <span class="ok">✓ Không nhớt, không mùi</span>
+        <span class="nok">✗ Có gân xanh / vàng / mùi → Từ chối</span>
+      </div>
+      <span class="sop-photo-upload">📎 Ảnh thực nhận: ______________</span>
+    </div>
+
+    <!-- 3. Tôm -->
+    <div class="sop-card">
+      <div class="sop-card-header">3. Tôm (30c/kg)</div>
+      <div class="sop-photo-box">
+        <div class="sop-photo-placeholder">📷 Dán ảnh hàng ĐẠT<br/>(vỏ bóng, thân chắc)</div>
+        <span class="sop-photo-label">Ảnh ĐẠT</span>
+      </div>
+      <div class="sop-criteria">
+        <span class="ok">✓ Vỏ bóng, thân cứng chắc</span>
+        <span class="ok">✓ Không mùi, không nhớt vỏ</span>
+        <span class="nok">✗ Đen đầu / mềm nhũn → Từ chối</span>
+      </div>
+      <span class="sop-photo-upload">📎 Ảnh thực nhận: ______________</span>
+    </div>
+
+    <!-- 4. Cà rốt -->
+    <div class="sop-card">
+      <div class="sop-card-header">4. Cà rốt</div>
+      <div class="sop-photo-box">
+        <div class="sop-photo-placeholder">📷 Dán ảnh hàng ĐẠT<br/>(củ cứng, màu cam đều)</div>
+        <span class="sop-photo-label">Ảnh ĐẠT</span>
+      </div>
+      <div class="sop-criteria">
+        <span class="ok">✓ Củ cứng, màu cam đều</span>
+        <span class="ok">✓ Không thâm đen, không lá úa</span>
+        <span class="nok">✗ Mềm / mốc / nứt → Từ chối</span>
+      </div>
+      <span class="sop-photo-upload">📎 Ảnh thực nhận: ______________</span>
+    </div>
+
+    <!-- 5. Khoai tây -->
+    <div class="sop-card">
+      <div class="sop-card-header">5. Khoai tây</div>
+      <div class="sop-photo-box">
+        <div class="sop-photo-placeholder">📷 Dán ảnh hàng ĐẠT<br/>(củ chắc, không mầm)</div>
+        <span class="sop-photo-label">Ảnh ĐẠT</span>
+      </div>
+      <div class="sop-criteria">
+        <span class="ok">✓ Củ cứng chắc, vỏ sạch</span>
+        <span class="ok">✓ Không có mầm xanh</span>
+        <span class="nok">✗ Có mầm / xanh vỏ → Từ chối</span>
+      </div>
+      <span class="sop-photo-upload">📎 Ảnh thực nhận: ______________</span>
+    </div>
+
+    <!-- 6. Hành tây -->
+    <div class="sop-card">
+      <div class="sop-card-header">6. Hành tây</div>
+      <div class="sop-photo-box">
+        <div class="sop-photo-placeholder">📷 Dán ảnh hàng ĐẠT<br/>(củ tròn, vỏ khô)</div>
+        <span class="sop-photo-label">Ảnh ĐẠT</span>
+      </div>
+      <div class="sop-criteria">
+        <span class="ok">✓ Củ tròn cứng, vỏ vàng khô</span>
+        <span class="ok">✓ Không mềm, không thối vỏ</span>
+        <span class="nok">✗ Nhớt / thối gốc → Từ chối</span>
+      </div>
+      <span class="sop-photo-upload">📎 Ảnh thực nhận: ______________</span>
+    </div>
+
+    <!-- 7. Bắp cải -->
+    <div class="sop-card">
+      <div class="sop-card-header">7. Bắp cải</div>
+      <div class="sop-photo-box">
+        <div class="sop-photo-placeholder">📷 Dán ảnh hàng ĐẠT<br/>(lá xanh, bắp chắc)</div>
+        <span class="sop-photo-label">Ảnh ĐẠT</span>
+      </div>
+      <div class="sop-criteria">
+        <span class="ok">✓ Lá xanh tươi, bắp chắc</span>
+        <span class="ok">✓ Không sâu, không nứt</span>
+        <span class="nok">✗ Lá úa vàng / thối lõi → Từ chối</span>
+      </div>
+      <span class="sop-photo-upload">📎 Ảnh thực nhận: ______________</span>
+    </div>
+
+    <!-- 8. Bắp Mỹ -->
+    <div class="sop-card">
+      <div class="sop-card-header">8. Bắp Mỹ</div>
+      <div class="sop-photo-box">
+        <div class="sop-photo-placeholder">📷 Dán ảnh hàng ĐẠT<br/>(hạt vàng đều, không thâm)</div>
+        <span class="sop-photo-label">Ảnh ĐẠT</span>
+      </div>
+      <div class="sop-criteria">
+        <span class="ok">✓ Hạt vàng đều, cứng</span>
+        <span class="ok">✓ Không thâm, không mốc râu</span>
+        <span class="nok">✗ Hạt lép / thâm đen → Từ chối</span>
+      </div>
+      <span class="sop-photo-upload">📎 Ảnh thực nhận: ______________</span>
+    </div>
+
+    <!-- 9. Đậu hủ -->
+    <div class="sop-card">
+      <div class="sop-card-header">9. Đậu hủ</div>
+      <div class="sop-photo-box">
+        <div class="sop-photo-placeholder">📷 Dán ảnh hàng ĐẠT<br/>(hộp nguyên, HSD còn hạn)</div>
+        <span class="sop-photo-label">Ảnh ĐẠT</span>
+      </div>
+      <div class="sop-criteria">
+        <span class="ok">✓ Hộp nguyên, không phồng bể</span>
+        <span class="ok">✓ HSD còn ít nhất 3 ngày</span>
+        <span class="nok">✗ Hộp phồng / HSD qua → Từ chối</span>
+      </div>
+      <span class="sop-photo-upload">📎 Ảnh thực nhận: ______________</span>
+    </div>
+
+  </div><!-- end sop-grid -->
+
+  <p style="font-size:10px;color:#888;margin-top:14px;border-top:1px dashed #ccc;padding-top:8px;">
+    📌 Hướng dẫn: In trang này → chụp ảnh hàng thực nhận → dán vào ô tương ứng → lưu kèm biên bản. 
+    Hoặc lưu ảnh số vào thư mục kiểm hàng theo ngày.
+  </p>
+</div>
 
 </body>
 </html>
