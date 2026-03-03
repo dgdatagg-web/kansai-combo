@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Onboard Nhân Viên – Kansai Osaka</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f0; color: #1a1a1a; }
+
+    /* HEADER */
+    .hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #c8860a 100%); color: #fff; padding: 40px 24px 32px; text-align: center; }
+    .hero .logo { font-size: 42px; margin-bottom: 8px; }
+    .hero h1 { font-size: 22px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+    .hero h2 { font-size: 14px; font-weight: 400; opacity: .75; margin-top: 6px; }
+    .hero .badge { display: inline-block; background: #c8860a; color: #fff; border-radius: 20px; font-size: 11px; font-weight: 700; padding: 4px 14px; margin-top: 12px; letter-spacing: 1px; }
+
+    /* PROGRESS TRACKER */
+    .progress-bar { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 16px 24px; display: flex; gap: 8px; overflow-x: auto; }
+    .step-dot { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 60px; cursor: pointer; }
+    .dot { width: 32px; height: 32px; border-radius: 50%; background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #888; transition: all .2s; }
+    .step-dot.active .dot { background: #c8860a; color: #fff; }
+    .step-dot.done .dot { background: #2e7d32; color: #fff; }
+    .step-dot span { font-size: 9px; color: #888; text-align: center; white-space: nowrap; }
+    .step-dot.active span { color: #c8860a; font-weight: 700; }
+    .progress-line { flex: 1; height: 2px; background: #e0e0e0; align-self: center; min-width: 12px; }
+
+    /* CONTENT */
+    .container { max-width: 720px; margin: 0 auto; padding: 24px 16px 80px; }
+
+    .phase { display: none; }
+    .phase.active { display: block; }
+
+    .phase-header { background: #1a1a2e; color: #fff; border-radius: 12px 12px 0 0; padding: 18px 20px; }
+    .phase-header .phase-num { font-size: 11px; opacity: .6; text-transform: uppercase; letter-spacing: 1px; }
+    .phase-header h3 { font-size: 18px; font-weight: 800; margin-top: 4px; }
+    .phase-header p { font-size: 12px; opacity: .7; margin-top: 4px; }
+
+    .phase-body { background: #fff; border-radius: 0 0 12px 12px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,.08); margin-bottom: 20px; }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; }
+    .checklist li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .checklist li:last-child { border-bottom: none; }
+    .check-box { width: 22px; height: 22px; border: 2px solid #c8860a; border-radius: 5px; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; margin-top: 1px; }
+    .check-box.checked { background: #c8860a; border-color: #c8860a; color: #fff; }
+    .check-text { flex: 1; }
+    .check-text strong { display: block; font-size: 13px; color: #1a1a2e; }
+    .check-text span { font-size: 11px; color: #888; line-height: 1.4; }
+    .check-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-left: 4px; }
+    .tag-red { background: #fde8e8; color: #c62828; }
+    .tag-green { background: #e8f5e9; color: #2e7d32; }
+    .tag-blue { background: #e3f2fd; color: #1565c0; }
+    .tag-gold { background: #fff8e1; color: #e65100; }
+
+    /* SECTION DIVIDER */
+    .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #c8860a; margin: 18px 0 8px; padding-bottom: 6px; border-bottom: 2px solid #f0e6d0; }
+
+    /* INFO CARD */
+    .info-card { background: #f9f6f0; border-left: 4px solid #c8860a; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 12px 0; }
+    .info-card p { font-size: 12px; color: #555; line-height: 1.6; }
+    .info-card strong { color: #1a1a2e; }
+
+    /* SCHEDULE TABLE */
+    .schedule { width: 100%; border-collapse: collapse; font-size: 12px; margin: 12px 0; }
+    .schedule th { background: #1a1a2e; color: #fff; padding: 8px 12px; text-align: left; font-size: 11px; text-transform: uppercase; }
+    .schedule td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    .schedule tr:nth-child(even) td { background: #fafafa; }
+    .schedule .time { font-weight: 700; color: #c8860a; white-space: nowrap; }
+    .schedule .peak { background: #fff3e0 !important; }
+
+    /* QUIZ */
+    .quiz-card { border: 2px solid #e0e0e0; border-radius: 10px; padding: 16px; margin: 10px 0; }
+    .quiz-card.correct { border-color: #2e7d32; background: #e8f5e9; }
+    .quiz-q { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+    .quiz-options { display: flex; flex-direction: column; gap: 6px; }
+    .quiz-opt { background: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 6px; padding: 8px 12px; font-size: 12px; cursor: pointer; transition: all .2s; }
+    .quiz-opt:hover { background: #fff8e1; border-color: #c8860a; }
+    .quiz-opt.selected { background: #c8860a; color: #fff; border-color: #c8860a; }
+    .quiz-opt.correct { background: #e8f5e9; border-color: #2e7d32; color: #2e7d32; font-weight: 700; }
+    .quiz-opt.wrong { background: #fde8e8; border-color: #c62828; color: #c62828; }
+
+    /* SIGNATURE */
+    .sign-area { border: 2px dashed #c8860a; border-radius: 10px; padding: 20px; text-align: center; margin: 16px 0; background: #fffdf5; }
+    .sign-area p { font-size: 12px; color: #888; margin-bottom: 12px; }
+    .sign-input { width: 100%; border: none; border-bottom: 2px solid #1a1a2e; padding: 8px 4px; font-size: 14px; background: transparent; text-align: center; outline: none; }
+    .sign-date { font-size: 11px; color: #888; margin-top: 8px; }
+
+    /* NAVIGATION */
+    .nav-buttons { display: flex; gap: 12px; margin-top: 20px; }
+    .btn { flex: 1; padding: 14px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all .2s; }
+    .btn-prev { background: #e0e0e0; color: #555; }
+    .btn-prev:hover { background: #ccc; }
+    .btn-next { background: #c8860a; color: #fff; }
+    .btn-next:hover { background: #a06d08; }
+    .btn-finish { background: #2e7d32; color: #fff; }
+
+    /* COMPLETE */
+    .complete-card { text-align: center; background: #fff; border-radius: 12px; padding: 40px 24px; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+    .complete-card .trophy { font-size: 64px; margin-bottom: 16px; }
+    .complete-card h3 { font-size: 22px; font-weight: 800; color: #1a1a2e; }
+    .complete-card p { font-size: 13px; color: #888; margin-top: 8px; }
+    .complete-card .score { font-size: 36px; font-weight: 800; color: #c8860a; margin: 16px 0; }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 18px; }
+      .phase-header h3 { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo">🍱</div>
+  <h1>Kansai Osaka</h1>
+  <h2>Quy Trình Onboard Nhân Viên Mới</h2>
+  <div class="badge">⏱ Hoàn thành trong 3 ngày đầu</div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar" id="progressBar">
+  <div class="step-dot active" onclick="goTo(0)"><div class="dot">1</div><span>Chào mừng</span></div>
+  <div class="progress-line"></div>
+  <div class="step-dot" onclick="goTo(1)"><div class="dot">2</div><span>Nội quy</span></div>
+  <div class="progress-line"></div>
+  <div class="step-dot" onclick="goTo(2)"><div class="dot">3</div><span>Mở ca</span></div>
+  <div class="progress-line"></div>
+  <div class="step-dot" onclick="goTo(3)"><div class="dot">4</div><span>Vận hành</span></div>
+  <div class="progress-line"></div>
+  <div class="step-dot" onclick="goTo(4)"><div class="dot">5</div><span>Đóng ca</span></div>
+  <div class="progress-line"></div>
+  <div class="step-dot" onclick="goTo(5)"><div class="dot">6</div><span>Kiểm tra</span></div>
+  <div class="progress-line"></div>
+  <div class="step-dot" onclick="goTo(6)"><div class="dot">✓</div><span>Xác nhận</span></div>
+</div>
+
+<div class="container">
+
+  <!-- ── PHASE 1: CHÀO MỪNG ── -->
+  <div class="phase active" id="phase-0">
+    <div class="phase-header">
+      <div class="phase-num">Bước 1 / 7</div>
+      <h3>👋 Chào Mừng Gia Nhập Team!</h3>
+      <p>Đọc kỹ & check từng mục trước khi qua bước tiếp theo</p>
+    </div>
+    <div class="phase-body">
+
+      <div class="info-card">
+        <p>Chào mừng bạn đến với <strong>Kansai Osaka</strong> — bếp Nhật chất lượng tại TP.HCM. Đây là tài liệu onboard giúp bạn nắm vững mọi thứ trong <strong>3 ngày đầu</strong>. Hãy đọc kỹ, tick từng mục và hỏi Bếp trưởng khi chưa rõ.</p>
+      </div>
+
+      <div class="section-title">📋 Thông tin cơ bản cần biết</div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Tên bếp & địa chỉ làm việc</strong><span>DG Ẩm Thực Kansai Osaka — bếp tại TP.HCM. Hỏi quản lý địa chỉ cụ thể nếu chưa có.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Ca làm việc của bạn</strong><span>Xác nhận ca (sáng/chiều/tối) và giờ bắt đầu cụ thể với Bếp trưởng Hiếu.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Người liên hệ khi cần</strong><span>Bếp trưởng: <strong>Hiếu</strong> | Bếp phó: <strong>Tân</strong> | Quản lý: qua nhóm Telegram bếp</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Đăng ký HR Bot</strong> <span class="check-tag tag-red">BẮT BUỘC</span><span>Nhắn <strong>/dangky</strong> vào @DG_HR_BOT trên Telegram để hệ thống ghi nhận ca làm việc & EXP của bạn.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Đồng phục & vệ sinh cá nhân</strong><span>Mặc đồng phục đúng quy định, đeo tạp dề, buộc tóc gọn, không đeo trang sức khi làm bếp.</span></div>
+        </li>
+      </ul>
+
+      <div class="section-title">🍱 Menu cần thuộc trong tuần đầu</div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Dòng Cà Ri (Kare)</strong><span>Kare Tonkatsu (heo) • Kare Chicken Katsu (gà) • Kare Beef Yakiniku (bò) • Cà Ri Rau Củ</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Dòng Katsudon & Don</strong><span>Pork Katsudon • Chicken Katsudon • Beef Yakiniku Don</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Dòng Mì Xào & Udon</strong><span>Mì Xào Gà / Heo / Bò / Tôm • Udon Xào Bò</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Món phụ & Side</strong><span>Takoyaki (5/10/20 viên) • Tempura Tôm • Miso Soup • Súp Bò Hầm • Trứng Cuộn • Tornado Omelette</span></div>
+        </li>
+      </ul>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-next" onclick="nextPhase()">Tiếp theo →</button>
+    </div>
+  </div>
+
+  <!-- ── PHASE 2: NỘI QUY ── -->
+  <div class="phase" id="phase-1">
+    <div class="phase-header">
+      <div class="phase-num">Bước 2 / 7</div>
+      <h3>📜 Nội Quy Bếp</h3>
+      <p>Đọc kỹ — vi phạm có thể ảnh hưởng EXP & lương</p>
+    </div>
+    <div class="phase-body">
+
+      <div class="section-title">🔴 Tuyệt đối không được</div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Không tự ý nghỉ không báo trước</strong> <span class="check-tag tag-red">-20 EXP</span><span>Nếu không thể đi làm, báo Bếp trưởng Hiếu ít nhất <strong>2 tiếng trước</strong> ca.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Không tự ý thay đổi công thức món</strong> <span class="check-tag tag-red">Nghiêm trọng</span><span>Mọi thay đổi phải được Bếp trưởng phê duyệt trước.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Không dùng điện thoại khi đang xử lý món</strong><span>Chỉ dùng điện thoại trong giờ nghỉ hoặc khi cần tra SOP.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Không tự ý lấy hoặc dùng nguyên liệu không phép</strong><span>Mọi nguyên liệu đều được theo dõi qua hệ thống kho.</span></div>
+        </li>
+      </ul>
+
+      <div class="section-title">🟡 Quy định bắt buộc</div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Báo cáo ca mỗi ngày qua HR Bot</strong> <span class="check-tag tag-gold">+10 EXP</span><span>Nhắn <strong>/baoca</strong> vào @DG_HR_BOT khi bắt đầu ca. Không báo = không tính công.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Báo cáo sự cố ngay lập tức</strong><span>Thiết bị hỏng, nguyên liệu kém chất lượng, khách phàn nàn → báo Bếp trưởng ngay, không tự xử lý.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Vệ sinh trạm làm việc sau mỗi màn</strong><span>Không để thức ăn thừa, dầu mỡ trên bề mặt quá 15 phút.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Checklist đóng ca phải được ký</strong><span>Bếp trưởng hoặc bếp phó xác nhận trước khi rời bếp.</span></div>
+        </li>
+      </ul>
+
+      <div class="section-title">🟢 EXP & Thưởng</div>
+      <div class="info-card">
+        <p>Kansai Osaka dùng hệ thống <strong>EXP Gamification</strong> — bạn tích điểm qua việc làm tốt, chăm chỉ và báo cáo đúng hạn. EXP ảnh hưởng đến <strong>xét tăng lương, thưởng tháng và thăng cấp</strong>.<br/><br/>
+        Dùng <strong>/exp</strong> trong @DG_HR_BOT để xem EXP của bạn bất kỳ lúc nào.</p>
+      </div>
+
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="prevPhase()">← Quay lại</button>
+      <button class="btn btn-next" onclick="nextPhase()">Tiếp theo →</button>
+    </div>
+  </div>
+
+  <!-- ── PHASE 3: MỞ CA ── -->
+  <div class="phase" id="phase-2">
+    <div class="phase-header">
+      <div class="phase-num">Bước 3 / 7</div>
+      <h3>🌅 Quy Trình Mở Ca</h3>
+      <p>Thực hiện theo đúng thứ tự — không bỏ bước</p>
+    </div>
+    <div class="phase-body">
+
+      <table class="schedule">
+        <tr><th>Thời gian</th><th>Việc cần làm</th></tr>
+        <tr><td class="time">T-30 phút</td><td>Đến trước giờ mở bếp, thay đồng phục</td></tr>
+        <tr><td class="time">Bước 1</td><td>Nhắn <strong>/baoca</strong> vào HR Bot → ghi nhận bắt đầu ca</td></tr>
+        <tr><td class="time">Bước 2</td><td>Bật thiết bị: bếp, fryer, nồi cơm, lò hâm curry</td></tr>
+        <tr><td class="time">Bước 3</td><td>Kiểm tra tồn kho nguyên liệu — đối chiếu với ca trước</td></tr>
+        <tr><td class="time">Bước 4</td><td>Nhận hàng nhập (nếu có) — ký biên bản kiểm hàng SOP</td></tr>
+        <tr><td class="time">Bước 5</td><td>Sơ chế nguyên liệu: thịt, rau củ, set up station</td></tr>
+        <tr><td class="time">Bước 6</td><td>Nấu nồi curry đầu ngày (theo công thức chuẩn)</td></tr>
+        <tr><td class="time">Bước 7</td><td>Chuẩn bị miso, soup, side items cho ca</td></tr>
+        <tr><td class="time">Bước 8</td><td>Check app Grab/Fabi: bật store, xác nhận đang nhận đơn</td></tr>
+        <tr><td class="time">✅ XONG</td><td>Báo Bếp trưởng: <em>"Mở ca xong"</em></td></tr>
+      </table>
+
+      <div class="section-title">⚠️ Lưu ý khi nhận hàng</div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Luôn dùng Biên Bản Kiểm Hàng</strong><span>Không bao giờ nhận hàng chỉ bằng miệng. In hoặc điền online tại link biên bản SOP.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Kiểm tra từng mặt hàng theo tiêu chuẩn</strong><span>Heo: hồng nhạt | Gà: không nhớt | Tôm: vỏ bóng | Rau: cứng không thâm</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Hàng không đạt → Từ chối ngay</strong><span>Báo Bếp trưởng và Thu mua. Không nhập kho hàng kém chất lượng.</span></div>
+        </li>
+      </ul>
+
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="prevPhase()">← Quay lại</button>
+      <button class="btn btn-next" onclick="nextPhase()">Tiếp theo →</button>
+    </div>
+  </div>
+
+  <!-- ── PHASE 4: VẬN HÀNH ── -->
+  <div class="phase" id="phase-3">
+    <div class="phase-header">
+      <div class="phase-num">Bước 4 / 7</div>
+      <h3>⚡ Vận Hành Ca & Peak Time</h3>
+      <p>18h–22h là giờ cao điểm — cần phối hợp chuẩn</p>
+    </div>
+    <div class="phase-body">
+
+      <div class="section-title">📊 Nhịp đơn trong ngày</div>
+      <table class="schedule">
+        <tr><th>Khung giờ</th><th>Mức độ</th><th>Việc cần chú ý</th></tr>
+        <tr><td class="time">10h – 14h</td><td>🟡 Trung bình</td><td>Ổn định, duy trì chất lượng, bổ sung nguyên liệu</td></tr>
+        <tr><td class="time">14h – 17h</td><td>🟢 Thấp</td><td>Chuẩn bị cho peak: chiên sẵn, set station, nấu thêm curry</td></tr>
+        <tr class="peak"><td class="time">17h – 22h</td><td>🔴 CAO ĐIỂM</td><td>Tập trung tối đa — xử lý đơn nhanh, không để đơn trễ >15 phút</td></tr>
+        <tr><td class="time">Thứ 2</td><td>⚫ Rất thấp</td><td>Ngày chết theo data — tranh thủ prep & vệ sinh sâu</td></tr>
+      </table>
+
+      <div class="section-title">🎯 Tiêu chuẩn xử lý đơn</div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Thời gian xử lý mục tiêu: ≤ 15 phút/đơn</strong><span>Grab hiển thị thời gian chuẩn bị — duy trì rating cao giúp bếp được đẩy top.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Kiểm tra đơn trước khi đóng hộp</strong><span>Đủ món? Đúng size? Đúng topping? Sốt đã cho chưa?</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Takoyaki chỉ bán sau 16h</strong><span>Bật SKU Takoyaki trên app sau 16h mỗi ngày. Tắt nếu hết bột/nguyên liệu.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Báo hết hàng ngay khi sắp hết</strong><span>Tắt SKU trên Grab/Fabi ngay khi nguyên liệu còn cho 2-3 phần. Không để khách đặt rồi hủy.</span></div>
+        </li>
+      </ul>
+
+      <div class="section-title">🔄 Bổ sung nguyên liệu giữa ca</div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Check tồn mỗi 2 tiếng</strong><span>Cơm, curry, thịt chiên, miso — ước lượng còn đủ cho 1 tiếng không?</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Nấu thêm trước khi hết</strong><span>Đừng đợi hết mới nấu — curry mất 20 phút, cơm mất 40 phút.</span></div>
+        </li>
+      </ul>
+
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="prevPhase()">← Quay lại</button>
+      <button class="btn btn-next" onclick="nextPhase()">Tiếp theo →</button>
+    </div>
+  </div>
+
+  <!-- ── PHASE 5: ĐÓNG CA ── -->
+  <div class="phase" id="phase-4">
+    <div class="phase-header">
+      <div class="phase-num">Bước 5 / 7</div>
+      <h3>🌙 Quy Trình Đóng Ca</h3>
+      <p>Không rời bếp khi chưa hoàn thành đủ các bước</p>
+    </div>
+    <div class="phase-body">
+
+      <table class="schedule">
+        <tr><th>Thứ tự</th><th>Việc cần làm</th></tr>
+        <tr><td class="time">Bước 1</td><td>Tắt store trên Grab & Fabi — không nhận đơn mới</td></tr>
+        <tr><td class="time">Bước 2</td><td>Xử lý hết các đơn đang còn trong queue</td></tr>
+        <tr><td class="time">Bước 3</td><td>Tắt thiết bị: fryer, bếp, lò — theo đúng thứ tự an toàn</td></tr>
+        <tr><td class="time">Bước 4</td><td>Kiểm kho tồn cuối ca — ghi số lượng còn lại</td></tr>
+        <tr><td class="time">Bước 5</td><td>Bảo quản nguyên liệu: thịt vào tủ lạnh, rau đậy kín, curry đổ hộp</td></tr>
+        <tr><td class="time">Bước 6</td><td>Vệ sinh bề mặt bếp, fryer, khu vực sơ chế</td></tr>
+        <tr><td class="time">Bước 7</td><td>Vệ sinh sàn, đổ rác, kiểm tra vòi nước/gas</td></tr>
+        <tr><td class="time">Bước 8</td><td>Nhắn báo cáo ca qua HR Bot: <strong>/dongca</strong></td></tr>
+        <tr><td class="time">Bước 9</td><td>Ký biên bản đóng ca — Bếp trưởng xác nhận</td></tr>
+        <tr><td class="time">✅ XONG</td><td>Rời bếp sau khi được Bếp trưởng OK</td></tr>
+      </table>
+
+      <div class="section-title">🧹 Tiêu chuẩn vệ sinh</div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Bề mặt bếp: sạch, không dầu mỡ</strong><span>Dùng khăn ẩm lau sau khi nguội. Kiểm tra khe giữa các thiết bị.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Fryer: lọc dầu hoặc thay nếu đã dùng >3 ca</strong><span>Dầu đen / mùi khét → thay ngay, báo bếp trưởng.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Khu vực sơ chế: không còn thịt sống</strong><span>Rửa sạch thớt, dao, khay sau mỗi loại nguyên liệu.</span></div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div class="check-text"><strong>Kiểm tra gas & điện trước khi ra về</strong><span>Van gas đóng? Quạt hút tắt? Đèn tắt hết?</span></div>
+        </li>
+      </ul>
+
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="prevPhase()">← Quay lại</button>
+      <button class="btn btn-next" onclick="nextPhase()">Tiếp theo →</button>
+    </div>
+  </div>
+
+  <!-- ── PHASE 6: KIỂM TRA ── -->
+  <div class="phase" id="phase-5">
+    <div class="phase-header">
+      <div class="phase-num">Bước 6 / 7</div>
+      <h3>🧠 Kiểm Tra Kiến Thức</h3>
+      <p>Trả lời 4 câu để xác nhận bạn đã nắm quy trình</p>
+    </div>
+    <div class="phase-body">
+
+      <!-- Q1 -->
+      <div class="quiz-card" id="q1">
+        <div class="quiz-q">1. Khi nào phải nhắn /baoca vào HR Bot?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answer(this,'q1','wrong')">Cuối ca trước khi về</div>
+          <div class="quiz-opt" onclick="answer(this,'q1','correct')">Ngay khi bắt đầu ca làm việc</div>
+          <div class="quiz-opt" onclick="answer(this,'q1','wrong')">Chỉ khi Bếp trưởng nhắc</div>
+          <div class="quiz-opt" onclick="answer(this,'q1','wrong')">Một lần mỗi tuần</div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-card" id="q2">
+        <div class="quiz-q">2. Nhận được hàng heo có màu xám và mùi lạ, bạn làm gì?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answer(this,'q2','wrong')">Nhận vào rồi dùng ngay cho kịp ca</div>
+          <div class="quiz-opt" onclick="answer(this,'q2','wrong')">Ướp thêm gia vị cho át mùi</div>
+          <div class="quiz-opt" onclick="answer(this,'q2','correct')">Từ chối, báo Bếp trưởng và Thu mua ngay</div>
+          <div class="quiz-opt" onclick="answer(this,'q2','wrong')">Để qua ngày hôm sau xem lại</div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-card" id="q3">
+        <div class="quiz-q">3. Giờ cao điểm (peak time) của Kansai Osaka là khung giờ nào?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answer(this,'q3','wrong')">10h – 12h</div>
+          <div class="quiz-opt" onclick="answer(this,'q3','wrong')">14h – 16h</div>
+          <div class="quiz-opt" onclick="answer(this,'q3','correct')">17h – 22h</div>
+          <div class="quiz-opt" onclick="answer(this,'q3','wrong')">22h – 00h</div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-card" id="q4">
+        <div class="quiz-q">4. Takoyaki chỉ được bán từ mấy giờ?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answer(this,'q4','wrong')">Cả ngày</div>
+          <div class="quiz-opt" onclick="answer(this,'q4','wrong')">Từ 12h trưa</div>
+          <div class="quiz-opt" onclick="answer(this,'q4','correct')">Sau 16h</div>
+          <div class="quiz-opt" onclick="answer(this,'q4','wrong')">Từ 20h tối</div>
+        </div>
+      </div>
+
+      <div id="quiz-result" style="display:none;" class="info-card">
+        <p id="quiz-result-text"></p>
+      </div>
+
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="prevPhase()">← Quay lại</button>
+      <button class="btn btn-next" id="btn-to-sign" onclick="checkQuizAndNext()" style="background:#888;">Nộp bài →</button>
+    </div>
+  </div>
+
+  <!-- ── PHASE 7: XÁC NHẬN ── -->
+  <div class="phase" id="phase-6">
+    <div class="phase-header">
+      <div class="phase-num">Bước 7 / 7</div>
+      <h3>✅ Xác Nhận Hoàn Thành Onboard</h3>
+      <p>Điền đầy đủ để hệ thống ghi nhận</p>
+    </div>
+    <div class="phase-body">
+
+      <div class="info-card">
+        <p>Bằng việc ký tên bên dưới, bạn xác nhận đã <strong>đọc, hiểu và đồng ý</strong> với toàn bộ nội quy và quy trình vận hành của Kansai Osaka.</p>
+      </div>
+
+      <div class="sign-area">
+        <p>Họ và tên nhân viên</p>
+        <input class="sign-input" type="text" placeholder="Nhập họ tên của bạn..." id="sign-name"/>
+        <div class="sign-date" id="sign-date-display"></div>
+      </div>
+
+      <div class="sign-area" style="margin-top:12px;">
+        <p>Bếp trưởng xác nhận</p>
+        <input class="sign-input" type="text" placeholder="Bếp trưởng ký tên..." id="sign-chef"/>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label style="display:flex;align-items:flex-start;gap:10px;font-size:12px;cursor:pointer;">
+          <input type="checkbox" id="confirm-check" style="margin-top:2px;width:16px;height:16px;accent-color:#c8860a;"/>
+          <span>Tôi xác nhận đã đọc và hiểu toàn bộ tài liệu onboard, nội quy bếp, và quy trình mở/vận hành/đóng ca của Kansai Osaka.</span>
+        </label>
+      </div>
+
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="prevPhase()">← Quay lại</button>
+      <button class="btn btn-finish btn-next" onclick="finish()">🎉 Hoàn thành Onboard!</button>
+    </div>
+  </div>
+
+  <!-- ── COMPLETE ── -->
+  <div class="phase" id="phase-complete">
+    <div class="complete-card">
+      <div class="trophy">🏅</div>
+      <h3>Chào mừng chính thức!</h3>
+      <div class="score" id="final-name"></div>
+      <p>Bạn đã hoàn thành onboard Kansai Osaka.<br/>Hệ thống đã ghi nhận.</p>
+      <div style="margin-top:24px;padding:16px;background:#f9f6f0;border-radius:10px;text-align:left;">
+        <p style="font-size:12px;font-weight:700;margin-bottom:8px;">📌 Nhớ làm ngay hôm nay:</p>
+        <p style="font-size:12px;color:#555;line-height:1.8;">
+          1️⃣ Nhắn <strong>/dangky</strong> vào @DG_HR_BOT<br/>
+          2️⃣ Nhắn <strong>/baoca</strong> mỗi ngày bắt đầu ca<br/>
+          3️⃣ Hỏi Bếp trưởng <strong>Hiếu</strong> bất kỳ điều gì chưa rõ<br/>
+          4️⃣ Check <strong>/exp</strong> để xem điểm của bạn
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end container -->
+
+<script>
+  let currentPhase = 0;
+  const totalPhases = 7;
+  const quizAnswers = { q1: false, q2: false, q3: false, q4: false };
+
+  // Set date
+  const d = new Date();
+  const dateStr = d.toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById('sign-date-display').textContent = '📅 ' + dateStr;
+
+  function updateProgress() {
+    const dots = document.querySelectorAll('.step-dot');
+    dots.forEach((dot, i) => {
+      dot.classList.remove('active', 'done');
+      if (i < currentPhase) dot.classList.add('done');
+      else if (i === currentPhase) dot.classList.add('active');
+    });
+  }
+
+  function showPhase(n) {
+    document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+    if (n >= totalPhases) {
+      document.getElementById('phase-complete').classList.add('active');
+    } else {
+      document.getElementById('phase-' + n).classList.add('active');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateProgress();
+  }
+
+  function nextPhase() {
+    currentPhase++;
+    showPhase(currentPhase);
+  }
+
+  function prevPhase() {
+    if (currentPhase > 0) { currentPhase--; showPhase(currentPhase); }
+  }
+
+  function goTo(n) {
+    currentPhase = n;
+    showPhase(n);
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    el.textContent = el.classList.contains('checked') ? '✓' : '';
+  }
+
+  function answer(el, qid, result) {
+    const card = document.getElementById(qid);
+    if (card.classList.contains('correct')) return;
+    const opts = card.querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    if (result === 'correct') {
+      el.classList.add('correct');
+      card.classList.add('correct');
+      quizAnswers[qid] = true;
+    } else {
+      el.classList.add('wrong');
+      setTimeout(() => el.classList.remove('wrong', 'selected'), 800);
+    }
+  }
+
+  function checkQuizAndNext() {
+    const correct = Object.values(quizAnswers).filter(Boolean).length;
+    const total = Object.keys(quizAnswers).length;
+    const resultEl = document.getElementById('quiz-result');
+    const resultText = document.getElementById('quiz-result-text');
+    resultEl.style.display = 'block';
+    if (correct === total) {
+      resultText.innerHTML = '🎉 <strong>Hoàn hảo! ' + correct + '/' + total + ' câu đúng.</strong> Bạn đã nắm vững quy trình!';
+      resultEl.style.borderColor = '#2e7d32';
+      setTimeout(() => nextPhase(), 1200);
+    } else {
+      resultText.innerHTML = '⚡ <strong>' + correct + '/' + total + ' câu đúng.</strong> Xem lại câu chưa đúng rồi thử lại nhé!';
+      resultEl.style.borderColor = '#c8860a';
+    }
+  }
+
+  function finish() {
+    const name = document.getElementById('sign-name').value.trim();
+    const check = document.getElementById('confirm-check').checked;
+    if (!name) { alert('Bạn chưa nhập họ tên!'); return; }
+    if (!check) { alert('Vui lòng tick xác nhận đã đọc tài liệu!'); return; }
+    document.getElementById('final-name').textContent = '👋 ' + name;
+    currentPhase = totalPhases;
+    showPhase(totalPhases);
+  }
+</script>
+
+</body>
+</html>
